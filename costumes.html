@@ -1,0 +1,1325 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+    <title>ชุดคอสเพลย์ | CosplayHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ========================================
+           1. THEME & BASE
+        ======================================== */
+        :root {
+            --costume-primary: #7655d9;
+            --costume-primary-dark: #5d3fc0;
+            --costume-primary-light: #eee8ff;
+            --costume-pink: #ff8db7;
+            --costume-text: #28233d;
+            --costume-muted: #77738a;
+            --costume-bg: #fbfaff;
+            --costume-border: #eeeaf7;
+            --costume-shadow: 0 10px 30px rgba(74, 52, 140, .08);
+            --costume-radius: 18px;
+        }
+
+        .costumes-page,
+        .costumes-page * {
+            box-sizing: border-box;
+        }
+
+        .costumes-page {
+            min-height: 100vh;
+            color: var(--costume-text);
+            background: var(--costume-bg);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            line-height: 1.7;
+        }
+
+        .costumes-page a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .costumes-page a:focus-visible,
+        .costumes-page button:focus-visible,
+        .costumes-page input:focus-visible {
+            outline: 3px solid #b8a1ff;
+            outline-offset: 3px;
+        }
+
+        .costumes-container {
+            width: min(1120px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        /* ========================================
+           2. RESPONSIVE HEADER
+        ======================================== */
+        .costumes-site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--costume-border);
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(14px);
+        }
+
+        .costumes-header-inner {
+            position: relative;
+            display: flex;
+            min-height: 76px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .costumes-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            flex-shrink: 0;
+            color: var(--costume-primary);
+            text-decoration: none;
+        }
+
+        .costumes-brand img {
+            display: block;
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .costumes-brand-name {
+            font-size: 23px;
+            font-weight: 850;
+            letter-spacing: -.7px;
+        }
+
+        .costumes-brand-name span {
+            color: var(--costume-pink);
+        }
+
+        .costumes-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--costume-border);
+            border-radius: 13px;
+            background: white;
+            color: var(--costume-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .costumes-main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .costumes-nav-link {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 13px;
+            border-radius: 12px;
+            color: #615d72;
+            font-size: 14px;
+            font-weight: 650;
+            text-align: center;
+            text-decoration: none;
+            transition: background .2s, color .2s;
+        }
+
+        .costumes-nav-link:hover,
+        .costumes-nav-link.active {
+            color: var(--costume-primary);
+            background: var(--costume-primary-light);
+        }
+
+        .costumes-nav-link.logout {
+            color: white;
+            background: linear-gradient(135deg, #7655d9, #9a79f0);
+        }
+
+        .costumes-nav-link.logout:hover {
+            background: var(--costume-primary-dark);
+        }
+
+        /* ========================================
+           3. MAIN CONTENT
+        ======================================== */
+        .costumes-main {
+            width: 100%;
+            max-width: 1200px;
+            margin-inline: auto;
+            padding: 38px 28px 64px;
+        }
+
+        .costumes-header {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: var(--costume-primary);
+            font-size: 12px;
+            font-weight: 850;
+            letter-spacing: .8px;
+        }
+
+        .costumes-header h1 {
+            margin: 0 0 9px;
+            color: var(--costume-text);
+            font-size: clamp(27px, 3vw, 35px);
+            font-weight: 850;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .costumes-header p {
+            max-width: 650px;
+            margin: 0;
+            color: var(--costume-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           4. SEARCH
+        ======================================== */
+        .costume-search {
+            margin-bottom: 20px;
+            padding: 18px;
+            border: 1px solid var(--costume-border);
+            border-radius: var(--costume-radius);
+            background: white;
+            box-shadow: 0 4px 16px rgba(69, 45, 112, .04);
+        }
+
+        .costume-search label {
+            display: block;
+            margin-bottom: 9px;
+            color: #39304e;
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .costume-search input {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 14px;
+            border: 1px solid #e3dcef;
+            border-radius: 12px;
+            outline: none;
+            background: #fdfcff;
+            color: #302744;
+            font: inherit;
+            font-size: 15px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .costume-search input:focus {
+            border-color: #8963e8;
+            box-shadow: 0 0 0 3px rgba(137, 99, 232, .12);
+        }
+
+        .costume-search input::placeholder {
+            color: #a29bad;
+        }
+
+        /* ========================================
+           5. RESULT COUNT
+        ======================================== */
+        .costume-results {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 0 0 17px;
+            color: var(--costume-muted);
+            font-size: 13px;
+        }
+
+        .costume-results strong {
+            color: var(--costume-primary);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        /* ========================================
+           6. COSTUME GRID
+        ======================================== */
+        .costume-list {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            align-items: stretch;
+            gap: 20px;
+        }
+
+        .costume-card {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--costume-border);
+            border-radius: var(--costume-radius);
+            background: white;
+            box-shadow: 0 5px 18px rgba(72, 46, 120, .055);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .costume-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--costume-shadow);
+        }
+
+        /* ========================================
+           7. COSTUME IMAGE
+        ======================================== */
+        .costume-image {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f0fb, #fff4f8);
+        }
+
+        .costume-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: transform .25s;
+        }
+
+        .costume-card:hover .costume-image img {
+            transform: scale(1.025);
+        }
+
+        .costume-image-placeholder {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            color: #8b7da3;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .placeholder-icon {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            place-items: center;
+            border-radius: 15px;
+            background: #eae0fb;
+            color: var(--costume-primary);
+            font-size: 26px;
+        }
+
+        /* ========================================
+           8. AVAILABILITY STATUS
+        ======================================== */
+        .costume-status {
+            display: inline-flex;
+            min-height: 27px;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 750;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+
+        .costume-image > .costume-status {
+            position: absolute;
+            top: 11px;
+            left: 11px;
+            z-index: 2;
+        }
+
+        .costume-status.available {
+            color: #18794e;
+            background: #e1f7eb;
+        }
+
+        .costume-status.unavailable {
+            color: #b83f50;
+            background: #fde8eb;
+        }
+
+        /* ========================================
+           9. CARD DETAILS
+        ======================================== */
+        .costume-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .costume-top h2 {
+            margin: 0;
+            color: #2b2341;
+            font-size: 16px;
+            font-weight: 750;
+            line-height: 1.55;
+            overflow-wrap: anywhere;
+        }
+
+        .costume-description {
+            display: -webkit-box;
+            min-height: 43px;
+            margin: 7px 0 13px;
+            overflow: hidden;
+            color: var(--costume-muted);
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .costume-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin: 0 0 16px;
+            color: #766d86;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .costume-meta span {
+            display: block;
+            overflow-wrap: anywhere;
+        }
+
+        .costume-meta strong {
+            color: #514568;
+            font-weight: 750;
+        }
+
+        /* ========================================
+           10. DETAILS BUTTON
+        ======================================== */
+        .costume-button {
+            display: flex;
+            width: 100%;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: auto;
+            padding: 10px 12px;
+            border: 1px solid var(--costume-primary);
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7655d9, #9b79ed);
+            box-shadow: 0 5px 12px rgba(118, 85, 217, .13);
+            color: white;
+            font-size: 13px;
+            font-weight: 750;
+            text-align: center;
+            text-decoration: none;
+            transition: background .2s, transform .2s;
+        }
+
+        .costume-button::after {
+            content: "→";
+        }
+
+        .costume-button:hover {
+            border-color: #633bc8;
+            background: #633bc8;
+            color: white;
+        }
+
+        .costume-button:active {
+            transform: translateY(1px);
+        }
+
+        .costume-button.is-disabled {
+            border-color: #c9c2d5;
+            background: #e9e5ef;
+            box-shadow: none;
+            color: #81798e;
+            cursor: not-allowed;
+        }
+
+        .costume-button.is-disabled::after {
+            content: "";
+        }
+
+        .costume-button.is-disabled:hover {
+            border-color: #c9c2d5;
+            background: #e9e5ef;
+            color: #81798e;
+        }
+
+        /* ========================================
+           11. EMPTY STATE
+        ======================================== */
+        .costume-empty {
+            grid-column: 1 / -1;
+            padding: 48px 20px;
+            border: 1px solid var(--costume-border);
+            border-radius: var(--costume-radius);
+            background: white;
+            text-align: center;
+        }
+
+        .costume-empty-icon {
+            margin-bottom: 12px;
+            color: var(--costume-primary);
+            font-size: 34px;
+        }
+
+        .costume-empty h3 {
+            margin: 0 0 8px;
+            color: #302744;
+            font-size: 19px;
+        }
+
+        .costume-empty p {
+            margin: 0;
+            color: var(--costume-muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           12. FOOTER
+        ======================================== */
+        .costumes-footer {
+            padding: 24px 0;
+            border-top: 1px solid var(--costume-border);
+            background: white;
+        }
+
+        .costumes-footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .costumes-footer-brand {
+            color: var(--costume-primary);
+            font-size: 16px;
+            font-weight: 850;
+        }
+
+        .costumes-footer-copy {
+            color: var(--costume-muted);
+            font-size: 12px;
+        }
+
+        /* ========================================
+           13. TABLET
+        ======================================== */
+        @media (max-width: 1050px) {
+            .costumes-main {
+                padding-inline: 24px;
+            }
+
+            .costume-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+            }
+
+            .costume-image {
+                height: 215px;
+            }
+
+            .costumes-header-inner {
+                gap: 12px;
+            }
+
+            .costumes-nav-link {
+                padding-inline: 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .costumes-container {
+                width: calc(100% - 32px);
+            }
+
+            .costumes-header-inner {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding-block: 10px;
+            }
+
+            .costumes-main {
+                padding: 30px 20px 46px;
+            }
+
+            .costume-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+
+            .costume-image {
+                height: 220px;
+            }
+
+            .costume-content {
+                padding: 14px;
+            }
+
+            .costumes-main-nav {
+                gap: 3px;
+            }
+        }
+
+        /* ========================================
+           14. MOBILE NAVIGATION
+        ======================================== */
+        @media (max-width: 650px) {
+            .costumes-container {
+                width: calc(100% - 28px);
+            }
+
+            .costumes-header-inner {
+                min-height: 66px;
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                gap: 10px;
+                padding-block: 10px;
+            }
+
+            .costumes-brand {
+                gap: 7px;
+            }
+
+            .costumes-brand img {
+                width: 36px;
+                height: 36px;
+            }
+
+            .costumes-brand-name {
+                font-size: 21px;
+            }
+
+            .costumes-menu-toggle {
+                display: inline-flex;
+                flex-shrink: 0;
+            }
+
+            .costumes-main-nav {
+                position: absolute;
+                top: calc(100% + 1px);
+                right: 0;
+                left: 0;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+                padding: 12px;
+                border: 1px solid var(--costume-border);
+                border-radius: 0 0 18px 18px;
+                background: white;
+                box-shadow: 0 14px 25px rgba(74, 52, 140, .12);
+            }
+
+            .costumes-main-nav.is-open {
+                display: flex;
+            }
+
+            .costumes-nav-link {
+                width: 100%;
+                min-height: 46px;
+                justify-content: flex-start;
+                padding: 11px 14px;
+                border-radius: 11px;
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .costumes-nav-link.logout {
+                justify-content: center;
+                margin-top: 3px;
+            }
+
+            .costumes-main {
+                padding: 27px 0 42px;
+            }
+
+            .costumes-header {
+                margin-bottom: 21px;
+            }
+
+            .costumes-header h1 {
+                font-size: 28px;
+            }
+
+            .costumes-header p {
+                font-size: 13px;
+            }
+
+            .costume-search {
+                margin-bottom: 18px;
+                padding: 14px;
+                border-radius: 15px;
+            }
+
+            .costume-search input {
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            .costume-results {
+                align-items: flex-start;
+                margin-bottom: 13px;
+            }
+
+            /* หน้าจอมือถือ: เรียงการ์ดแนวตั้ง อ่านข้อมูลได้ครบ */
+            .costume-list {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 15px;
+            }
+
+            .costume-card {
+                display: grid;
+                grid-template-columns: minmax(110px, 36%) minmax(0, 1fr);
+                align-items: stretch;
+                border-radius: 16px;
+            }
+
+            .costume-card:hover {
+                transform: none;
+            }
+
+            .costume-image {
+                height: 100%;
+                min-height: 235px;
+            }
+
+            .costume-image img {
+                position: absolute;
+                inset: 0;
+            }
+
+            .costume-image-placeholder {
+                min-height: 235px;
+                font-size: 11px;
+            }
+
+            .placeholder-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .costume-image > .costume-status {
+                top: 8px;
+                left: 8px;
+                min-height: 24px;
+                padding: 4px 7px;
+                font-size: 10px;
+            }
+
+            .costume-content {
+                min-width: 0;
+                padding: 13px 12px;
+            }
+
+            .costume-top h2 {
+                font-size: 15px;
+                line-height: 1.5;
+            }
+
+            .costume-description {
+                min-height: 0;
+                margin: 6px 0 10px;
+                font-size: 12px;
+                line-height: 1.65;
+                -webkit-line-clamp: 3;
+            }
+
+            .costume-meta {
+                gap: 5px;
+                margin-bottom: 12px;
+                font-size: 11px;
+                line-height: 1.6;
+            }
+
+            .costume-button {
+                min-height: 43px;
+                padding: 9px 7px;
+                border-radius: 10px;
+                font-size: 12px;
+            }
+
+            .costume-empty {
+                padding: 35px 16px;
+            }
+
+            .costumes-footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        /* มือถือจอแคบมาก: การ์ดแนวตั้งเต็มความกว้าง */
+        @media (max-width: 390px) {
+            .costumes-header h1 {
+                font-size: 25px;
+            }
+
+            .costume-card {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .costume-image {
+                height: 205px;
+                min-height: 205px;
+            }
+
+            .costume-image-placeholder {
+                min-height: 205px;
+            }
+
+            .costume-content {
+                padding: 14px;
+            }
+
+            .costume-top h2 {
+                font-size: 16px;
+            }
+
+            .costume-description {
+                font-size: 12px;
+                -webkit-line-clamp: 2;
+            }
+
+            .costume-meta {
+                font-size: 12px;
+            }
+
+            .costume-button {
+                min-height: 46px;
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .costumes-page *,
+            .costumes-page *::before,
+            .costumes-page *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="costumes-page">
+
+    <!-- HEADER -->
+    <header class="costumes-site-header">
+        <div class="costumes-container costumes-header-inner">
+            <a href="home.html" class="costumes-brand"
+               aria-label="CosplayHub หน้าแรก">
+                <img src="images/logo.png" alt=""
+                     onerror="this.style.display='none'">
+                <span class="costumes-brand-name">Cosplay<span>Hub</span></span>
+            </a>
+
+            <button
+                type="button"
+                class="costumes-menu-toggle"
+                id="costumesMenuToggle"
+                aria-label="เปิดเมนู"
+                aria-expanded="false"
+                aria-controls="costumesMainNav">
+                ☰
+            </button>
+
+            <nav class="costumes-main-nav" id="costumesMainNav"
+                 aria-label="เมนูหลัก">
+                <a href="home.html" class="costumes-nav-link">หน้าแรก</a>
+                <a href="costumes.html"
+                   class="costumes-nav-link active"
+                   aria-current="page">ชุดคอสเพลย์</a>
+                <a href="my-rentals.html" class="costumes-nav-link">
+                    การเช่าของฉัน
+                </a>
+                <a href="profile.html" class="costumes-nav-link">
+                    โปรไฟล์
+                </a>
+                <a href="index.html" class="costumes-nav-link logout">
+                    ออกจากระบบ
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- COSTUME LIST -->
+    <main class="costumes-main">
+        <div class="costumes-container">
+
+            <section class="costumes-header">
+                <span class="section-label">COSPLAY COLLECTION</span>
+                <h1>รายการชุดคอสเพลย์</h1>
+                <p>
+                    เลือกดูรายละเอียดชุด ตรวจสอบตัวชุด วิก พร็อพ
+                    และสถานะก่อนส่งคำขอเช่า
+                </p>
+            </section>
+
+            <section class="costume-search">
+                <label for="costumeSearch">ค้นหาชุดคอสเพลย์</label>
+                <input
+                    type="search"
+                    id="costumeSearch"
+                    placeholder="พิมพ์ชื่อชุดหรือตัวละครที่ต้องการค้นหา"
+                    autocomplete="off"
+                    aria-label="ค้นหาชุดคอสเพลย์ตามชื่อหรือตัวละคร">
+            </section>
+
+            <div class="costume-results" aria-live="polite">
+                <span>รายการชุดคอสเพลย์</span>
+                <strong id="costumeCount">0 รายการ</strong>
+            </div>
+
+            <section class="costume-list" id="costumeList"
+                     aria-label="รายการชุดคอสเพลย์"></section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="costumes-footer">
+        <div class="costumes-container costumes-footer-inner">
+            <div class="costumes-footer-brand">CosplayHub ✦</div>
+            <div class="costumes-footer-copy">
+                พื้นที่สำหรับค้นหาและเช่าชุดคอสเพลย์
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script>
+    /* ========================================
+       1. MOBILE MENU
+    ======================================== */
+    const menuToggle = document.getElementById("costumesMenuToggle");
+    const mainNav = document.getElementById("costumesMainNav");
+
+    function closeCostumesMenu() {
+        mainNav.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "เปิดเมนู");
+        menuToggle.textContent = "☰";
+    }
+
+    menuToggle.addEventListener("click", function () {
+        const isOpen = mainNav.classList.toggle("is-open");
+
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute(
+            "aria-label",
+            isOpen ? "ปิดเมนู" : "เปิดเมนู"
+        );
+        menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    mainNav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeCostumesMenu);
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 650) {
+            closeCostumesMenu();
+        }
+    });
+
+    /* ========================================
+       2. ELEMENTS
+    ======================================== */
+    const costumeList = document.getElementById("costumeList");
+    const searchInput = document.getElementById("costumeSearch");
+    const costumeCount = document.getElementById("costumeCount");
+
+    /* ========================================
+       3. READ EXISTING DATA
+       อ่านข้อมูลเดิมโดยไม่ลบหรือเขียนทับ
+    ======================================== */
+    let costumes = [];
+
+    try {
+        const saved = localStorage.getItem("cosplayHubCostumes");
+        const parsed = saved ? JSON.parse(saved) : [];
+
+        if (Array.isArray(parsed)) {
+            costumes = parsed;
+        }
+    } catch (error) {
+        console.error(
+            "ไม่สามารถอ่านข้อมูลชุดคอสเพลย์ได้",
+            error
+        );
+    }
+
+    /* ========================================
+       4. WIG LABELS
+    ======================================== */
+    function getWigText(wig) {
+        const labels = {
+            included: "มีวิกในชุด",
+            external: "วิกจากภายนอก",
+            none: "ไม่มีวิก"
+        };
+
+        return labels[wig] || "";
+    }
+
+    /* ========================================
+       5. PROP LABELS
+    ======================================== */
+    function getPropText(prop) {
+        const labels = {
+            included: "มีพร็อพในชุด",
+            customer: "ลูกค้าจัดหาเอง",
+            additional: "ร้านจัดหาเพิ่มเติม",
+            none: "ไม่มีพร็อพ"
+        };
+
+        return labels[prop] || "";
+    }
+
+    /* ========================================
+       6. VALIDATE IMAGE
+    ======================================== */
+    function getValidProductImage(image) {
+        if (typeof image !== "string" || !image.trim()) {
+            return "";
+        }
+
+        const value = image.trim();
+        const pathWithoutQuery = value.split(/[?#]/)[0];
+
+        const fileName = pathWithoutQuery
+            .split(/[\\/]/)
+            .pop()
+            .toLowerCase();
+
+        if (
+            /^logo(?:[-_.]|$)/i.test(fileName) ||
+            fileName.includes("cosplayhub-logo")
+        ) {
+            return "";
+        }
+
+        if (
+            /^data:image\/(?:png|jpe?g|webp|gif);base64,/i.test(value)
+        ) {
+            return value;
+        }
+
+        if (/^https?:\/\//i.test(value)) {
+            return value;
+        }
+
+        if (
+            /^(?:\.\/|\/)?(?:images|uploads)\//i.test(value) &&
+            /\.(?:png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value)
+        ) {
+            return value;
+        }
+
+        if (
+            !value.includes("\\") &&
+            /\.(?:png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value) &&
+            !value.startsWith("javascript:")
+        ) {
+            return value;
+        }
+
+        return "";
+    }
+
+    /* ========================================
+       7. IMAGE PLACEHOLDER
+    ======================================== */
+    function createImagePlaceholder(message) {
+        const placeholder = document.createElement("div");
+        placeholder.className = "costume-image-placeholder";
+
+        const icon = document.createElement("span");
+        icon.className = "placeholder-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "♡";
+
+        const text = document.createElement("span");
+        text.textContent = message;
+
+        placeholder.append(icon, text);
+        return placeholder;
+    }
+
+    /* ========================================
+       8. IMAGE AREA
+    ======================================== */
+    function createImageArea(costume, statusText, statusClass) {
+        const container = document.createElement("div");
+        container.className = "costume-image";
+
+        const imageSource = getValidProductImage(costume.image);
+
+        if (imageSource) {
+            const img = document.createElement("img");
+
+            img.src = imageSource;
+            img.alt = costume.name || "ชุดคอสเพลย์";
+            img.loading = "lazy";
+
+            img.addEventListener("error", function () {
+                img.remove();
+
+                container.prepend(
+                    createImagePlaceholder("ไม่สามารถแสดงรูปชุดได้")
+                );
+            }, { once: true });
+
+            container.appendChild(img);
+        } else {
+            container.appendChild(
+                createImagePlaceholder("ยังไม่มีรูปชุด")
+            );
+        }
+
+        const status = document.createElement("span");
+        status.className = "costume-status " + statusClass;
+        status.textContent = statusText;
+
+        container.appendChild(status);
+        return container;
+    }
+
+    /* ========================================
+       9. METADATA LINE
+    ======================================== */
+    function addMetaLine(parent, label, value) {
+        if (
+            value === "" ||
+            value === null ||
+            value === undefined
+        ) {
+            return;
+        }
+
+        const line = document.createElement("span");
+        const strong = document.createElement("strong");
+
+        strong.textContent = label + ":";
+
+        line.append(
+            strong,
+            document.createTextNode(" " + String(value))
+        );
+
+        parent.appendChild(line);
+    }
+
+    /* ========================================
+       10. EMPTY STATE
+    ======================================== */
+    function showEmptyState(isSearching) {
+        const box = document.createElement("div");
+        box.className = "costume-empty";
+
+        const icon = document.createElement("div");
+        icon.className = "costume-empty-icon";
+        icon.textContent = "♡";
+
+        const heading = document.createElement("h3");
+        heading.textContent = isSearching
+            ? "ไม่พบชุดคอสเพลย์ที่ค้นหา"
+            : "ยังไม่มีชุดคอสเพลย์";
+
+        const message = document.createElement("p");
+        message.textContent = isSearching
+            ? "ลองค้นหาด้วยชื่อชุดหรือตัวละครอื่น"
+            : "เมื่อร้านเพิ่มชุดคอสเพลย์ ชุดจะแสดงในหน้านี้";
+
+        box.append(icon, heading, message);
+        costumeList.replaceChildren(box);
+    }
+
+    /* ========================================
+       11. DETAIL BUTTON
+    ======================================== */
+    function createDetailButton(costume) {
+        const button = document.createElement("a");
+
+        button.className = "costume-button";
+        button.textContent = "ดูรายละเอียด";
+
+        const costumeId = costume.id;
+
+        const hasValidId =
+            costumeId !== undefined &&
+            costumeId !== null &&
+            String(costumeId).trim() !== "";
+
+        if (hasValidId) {
+            button.href =
+                "costume-detail.html?id=" +
+                encodeURIComponent(String(costumeId));
+        } else {
+            button.href = "#";
+            button.classList.add("is-disabled");
+            button.setAttribute("aria-disabled", "true");
+            button.title = "ชุดนี้ไม่มีรหัสข้อมูล";
+
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                alert(
+                    "ชุดนี้ไม่มีรหัสข้อมูล กรุณาตรวจสอบข้อมูลชุดก่อน"
+                );
+            });
+        }
+
+        return button;
+    }
+
+    /* ========================================
+       12. RENDER COSTUMES
+    ======================================== */
+    function displayCostumes(list) {
+        costumeList.replaceChildren();
+        costumeCount.textContent = list.length + " รายการ";
+
+        if (list.length === 0) {
+            showEmptyState(Boolean(searchInput.value.trim()));
+            return;
+        }
+
+        list.forEach(function (costume) {
+            const card = document.createElement("article");
+            card.className = "costume-card";
+
+            const isAvailable = costume.status === "available";
+
+            const imageArea = createImageArea(
+                costume,
+                isAvailable ? "ว่าง" : "ไม่ว่าง",
+                isAvailable ? "available" : "unavailable"
+            );
+
+            const content = document.createElement("div");
+            content.className = "costume-content";
+
+            const top = document.createElement("div");
+            top.className = "costume-top";
+
+            const title = document.createElement("h2");
+            title.textContent = costume.name || "ไม่ระบุชื่อชุด";
+
+            top.appendChild(title);
+
+            const description = document.createElement("p");
+            description.className = "costume-description";
+            description.textContent =
+                costume.description || "ไม่มีรายละเอียดชุด";
+
+            const meta = document.createElement("div");
+            meta.className = "costume-meta";
+
+            addMetaLine(meta, "ตัวชุด", costume.costumeSet);
+            addMetaLine(meta, "วิก", getWigText(costume.wig));
+            addMetaLine(meta, "พร็อพ", getPropText(costume.prop));
+
+            const extraCost = costume.additionalCost;
+
+            if (
+                extraCost !== undefined &&
+                extraCost !== null &&
+                extraCost !== "" &&
+                Number(extraCost) !== 0
+            ) {
+                addMetaLine(
+                    meta,
+                    "ค่าใช้จ่ายเพิ่มเติม",
+                    extraCost + " บาท"
+                );
+            }
+
+            const button = createDetailButton(costume);
+
+            content.append(
+                top,
+                description,
+                meta,
+                button
+            );
+
+            card.append(imageArea, content);
+            costumeList.appendChild(card);
+        });
+    }
+
+    /* ========================================
+       13. SEARCH
+    ======================================== */
+    searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        const filtered = costumes.filter(function (costume) {
+            const name = String(
+                costume.name || ""
+            ).toLowerCase();
+
+            const description = String(
+                costume.description || ""
+            ).toLowerCase();
+
+            const costumeSet = String(
+                costume.costumeSet || ""
+            ).toLowerCase();
+
+            return (
+                name.includes(keyword) ||
+                description.includes(keyword) ||
+                costumeSet.includes(keyword)
+            );
+        });
+
+        displayCostumes(filtered);
+    });
+
+    /* ========================================
+       14. INITIAL DISPLAY
+    ======================================== */
+    displayCostumes(costumes);
+</script>
+</body>
+</html>

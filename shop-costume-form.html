@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการชุดคอสเพลย์ | CosplayHub</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .costume-form-page {
+            width: min(900px, calc(100% - 32px));
+            margin: 28px auto 48px;
+        }
+
+        /* ปุ่มกลับหน้ารายการชุด */
+        .costume-back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            margin: 0 0 18px;
+            padding: 0;
+            border: 1px solid #e8e2f0;
+            border-radius: 50%;
+            background: #fff;
+            color: #342a48;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .costume-back-button:hover {
+            background: #f5f0ff;
+            border-color: #c9b9f4;
+        }
+
+        .costume-back-button svg {
+            display: block;
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+        }
+
+        .costume-form-heading {
+            margin-bottom: 24px;
+        }
+
+        .costume-form-heading h1 {
+            margin: 0 0 8px;
+            color: #211735;
+            font-size: 28px;
+        }
+
+        .costume-form-heading p {
+            margin: 0;
+            color: #777;
+            line-height: 1.7;
+        }
+
+        .costume-form-card {
+            padding: 28px;
+            background: #fff;
+            border: 1px solid #eee8f6;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .costume-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .costume-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .costume-form-group label {
+            color: #342a48;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .costume-form-group input,
+        .costume-form-group textarea,
+        .costume-form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            border: 1px solid #ddd6ef;
+            border-radius: 8px;
+            background: #fff;
+            color: #332b42;
+            font: inherit;
+            font-size: 14px;
+        }
+
+        .costume-form-group input,
+        .costume-form-group select {
+            min-height: 44px;
+        }
+
+        .costume-form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .costume-form-group input:focus,
+        .costume-form-group textarea:focus,
+        .costume-form-group select:focus {
+            outline: none;
+            border-color: #7657d9;
+            box-shadow: 0 0 0 3px rgba(118, 87, 217, 0.1);
+        }
+
+        /* ช่องราคาเช่าชุด */
+        .costume-price-input-wrap {
+            position: relative;
+        }
+
+        .costume-price-input-wrap input {
+            padding-right: 72px;
+        }
+
+        .costume-price-unit {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            transform: translateY(-50%);
+            color: #766c85;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .costume-form-help {
+            margin: 0;
+            color: #8a8193;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .costume-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 8px;
+        }
+
+        .costume-cancel-button,
+        .costume-save-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .costume-cancel-button {
+            border: 1px solid #ddd6ef;
+            background: #fff;
+            color: #665d73;
+        }
+
+        .costume-cancel-button:hover {
+            background: #f8f6fc;
+        }
+
+        .costume-save-button {
+            border: 1px solid #6241d7;
+            background: #6241d7;
+            color: #fff;
+        }
+
+        .costume-save-button:hover {
+            background: #5132c0;
+        }
+
+        @media (max-width: 600px) {
+            .costume-form-page {
+                width: calc(100% - 24px);
+                margin-top: 20px;
+            }
+
+            .costume-form-card {
+                padding: 18px;
+            }
+
+            .costume-form-heading h1 {
+                font-size: 23px;
+            }
+
+            .costume-form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .costume-cancel-button,
+            .costume-save-button {
+                width: 100%;
+            }
+
+            .shop-header {
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ส่วนหัวเว็บไซต์ -->
+    <header class="shop-header">
+        <a href="home.html" class="shop-logo" aria-label="CosplayHub หน้าแรก">
+            <img src="images/logo.png" alt="CosplayHub">
+        </a>
+
+        <a href="index.html" class="shop-logout">ออกจากระบบ</a>
+    </header>
+
+    <main class="costume-form-page">
+        <!-- ปุ่มกลับไปหน้ารายการชุด -->
+        <button
+            type="button"
+            class="costume-back-button"
+            id="costumeBackButton"
+            aria-label="กลับไปหน้ารายการชุด"
+            title="กลับไปหน้ารายการชุด">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+            </svg>
+        </button>
+
+        <div class="costume-form-heading">
+            <h1>เพิ่มชุดคอสเพลย์</h1>
+            <p>กรอกรายละเอียดชุด ราคาเช่า วิก พร็อพ และค่าใช้จ่ายเพิ่มเติม</p>
+        </div>
+
+        <section class="costume-form-card">
+            <form id="costumeForm" class="costume-form">
+                <!-- รูปภาพชุด -->
+                <div class="costume-form-group">
+                    <label for="costumeImage">รูปภาพชุดคอสเพลย์</label>
+                    <input
+                        type="file"
+                        id="costumeImage"
+                        name="costumeImage"
+                        accept="image/*">
+                    <p class="costume-form-help">
+                        เลือกรูปภาพชุดที่ต้องการแสดงในรายการ
+                    </p>
+                </div>
+
+                <!-- ชื่อตัวละคร -->
+                <div class="costume-form-group">
+                    <label for="costumeName">ชื่อตัวละคร / ชื่อชุด *</label>
+                    <input
+                        type="text"
+                        id="costumeName"
+                        name="costumeName"
+                        placeholder="เช่น Marin Kitagawa"
+                        required>
+                </div>
+
+                <!-- รายละเอียดชุด -->
+                <div class="costume-form-group">
+                    <label for="costumeDescription">รายละเอียดชุด</label>
+                    <textarea
+                        id="costumeDescription"
+                        name="costumeDescription"
+                        placeholder="รายละเอียด ขนาด หรือข้อมูลเพิ่มเติมของชุด"></textarea>
+                </div>
+
+                <!-- รายละเอียดตัวชุด -->
+                <div class="costume-form-group">
+                    <label for="costumeSet">รายละเอียดตัวชุด</label>
+                    <textarea
+                        id="costumeSet"
+                        name="costumeSet"
+                        placeholder="เช่น เสื้อ กระโปรง ถุงเท้า และเครื่องประดับ"></textarea>
+                </div>
+
+                <!-- ราคาเช่าชุด -->
+                <div class="costume-form-group">
+                    <label for="rentalPrice">ราคาเช่าชุด (บาท) *</label>
+                    <div class="costume-price-input-wrap">
+                        <input
+                            type="number"
+                            id="rentalPrice"
+                            name="rentalPrice"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            placeholder="เช่น 350"
+                            required>
+                        <span class="costume-price-unit">บาท</span>
+                    </div>
+                    <p class="costume-form-help">
+                        ระบุราคาเช่าตามเงื่อนไขของร้าน โดยไม่รวมค่าใช้จ่ายเพิ่มเติมที่อาจเกิดขึ้น
+                    </p>
+                </div>
+
+                <!-- วิก -->
+                <div class="costume-form-group">
+                    <label for="wig">วิก</label>
+                    <select id="wig" name="wig">
+                        <option value="included">มีวิกให้</option>
+                        
+                        <option value="none">ไม่มีวิก</option>
+                    </select>
+                </div>
+
+                <!-- พร็อพ -->
+                <div class="costume-form-group">
+                    <label for="prop">พร็อพ</label>
+                    <select id="prop" name="prop">
+                        <option value="included">มีพร็อพในชุด</option>
+                       
+                        
+                        <option value="none">ไม่มีพร็อพ</option>
+                    </select>
+                </div>
+
+                <!-- ค่าใช้จ่ายเพิ่มเติมเดิม -->
+                <div class="costume-form-group">
+                    <label for="additionalCost">ค่าใช้จ่ายเพิ่มเติม</label>
+                    <input
+                        type="text"
+                        id="additionalCost"
+                        name="additionalCost"
+                        placeholder="เช่น 100 บาท หรือ ไม่มี">
+                    <p class="costume-form-help">
+                        ระบุค่าใช้จ่ายเพิ่มเติมสำหรับวิกหรือพร็อพ หากมี
+                    </p>
+                </div>
+
+                <!-- คงการจัดการสถานะไว้นอกฟอร์ม -->
+
+                <!-- ปุ่มเดิม -->
+                <div class="costume-form-actions">
+                    <a
+                        href="shop-costumes.html"
+                        class="costume-cancel-button">
+                        ยกเลิก
+                    </a>
+
+                    <button type="submit" class="costume-save-button">
+                        บันทึกชุด
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        /* ปุ่มกลับไปหน้ารายการชุดโดยตรง */
+        document.addEventListener("DOMContentLoaded", function () {
+            const backButton = document.getElementById("costumeBackButton");
+
+            if (backButton) {
+                backButton.addEventListener("click", function () {
+                    window.location.href = "shop-costumes.html";
+                });
+            }
+        });
+    </script>
+
+    <!-- JavaScript ฟอร์ม -->
+    <script src="js/shop-costume-form.js"></script>
+</body>
+</html>

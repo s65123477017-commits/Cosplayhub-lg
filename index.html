@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5efff">
+    <title>เข้าสู่ระบบ | CosplayHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ========================================
+           1. สีและค่าพื้นฐานของ CosplayHub
+        ======================================== */
+        :root {
+            --ch-purple: #8967df;
+            --ch-purple-dark: #704cc5;
+            --ch-lavender: #eee6ff;
+            --ch-ink: #39324f;
+            --ch-muted: #8c849f;
+            --ch-white: #ffffff;
+            --ch-border: #e8dff8;
+            --ch-input: #f7f4ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0 !important;
+            min-height: 100vh;
+            color: var(--ch-ink) !important;
+            font-family: "Leelawadee UI", Tahoma, sans-serif !important;
+            background:
+                radial-gradient(
+                    ellipse at 15% 25%,
+                    rgba(224, 208, 255, .75),
+                    transparent 40%
+                ),
+                radial-gradient(
+                    ellipse at 85% 75%,
+                    rgba(236, 221, 255, .8),
+                    transparent 40%
+                ),
+                linear-gradient(135deg, #fcfaff, #f5efff 55%, #f0eaff) !important;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ch-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========================================
+           2. ส่วนหัวและโลโก้
+        ======================================== */
+        .ch-header {
+            width: min(1400px, calc(100% - 80px));
+            min-height: 96px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ch-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .ch-logo {
+            display: block;
+            width: 52px !important;
+            height: 52px !important;
+            flex: 0 0 52px;
+            object-fit: contain !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .ch-brand-name {
+            display: block;
+            margin: 0;
+            color: #342c4c;
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .ch-brand-name span {
+            color: var(--ch-purple);
+        }
+
+        .ch-tagline {
+            display: block;
+            margin-top: 5px;
+            color: #8d82a9;
+            font-size: 11px;
+        }
+
+        .ch-header-note {
+            color: #8d7ab9;
+            font-size: 12px;
+        }
+
+        /* ========================================
+           3. โครงสร้างเนื้อหาหลัก
+        ======================================== */
+        .ch-main {
+            width: min(1400px, calc(100% - 80px));
+            flex: 1;
+            margin: 0 auto;
+            padding: 28px 0 42px;
+            display: grid;
+            grid-template-columns:
+                minmax(220px, .82fr)
+                minmax(260px, 1.08fr)
+                minmax(320px, .95fr);
+            align-items: center;
+            gap: clamp(22px, 3vw, 45px);
+        }
+
+        /* ========================================
+           4. ข้อความแนะนำเว็บไซต์
+        ======================================== */
+        .ch-intro {
+            min-width: 0;
+        }
+
+        .ch-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 9px 14px;
+            color: #7956c9;
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid #dfd1ff;
+            border-radius: 50px;
+            font-size: 12px;
+        }
+
+        .ch-title {
+            margin: 0;
+            color: #3b3452;
+            font-size: clamp(29px, 2.8vw, 42px);
+            font-weight: 800;
+            line-height: 1.5;
+            letter-spacing: -.5px;
+        }
+
+        .ch-title span {
+            color: var(--ch-purple);
+        }
+
+        .ch-description {
+            margin: 17px 0 25px;
+            color: var(--ch-muted);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .ch-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ch-benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ch-benefit-icon {
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            display: grid;
+            place-items: center;
+            color: var(--ch-purple);
+            background: #eae1ff;
+            border: 1px solid rgba(137, 103, 223, .08);
+            border-radius: 14px;
+            font-size: 20px;
+        }
+
+        .ch-benefit strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .ch-benefit small {
+            display: block;
+            color: var(--ch-muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           5. ภาพประกอบ
+        ======================================== */
+        .ch-visual {
+            position: relative;
+            width: 100%;
+            height: clamp(340px, 42vw, 510px);
+            min-width: 0;
+            overflow: hidden;
+            isolation: isolate;
+            background: #e9ddff;
+            border: 1px solid rgba(255, 255, 255, .75);
+            border-radius: 25px;
+            box-shadow: 0 18px 48px rgba(106, 77, 166, .13);
+        }
+
+        .ch-visual::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(
+                180deg,
+                rgba(243, 234, 255, .02),
+                rgba(139, 103, 209, .08)
+            );
+        }
+
+        .ch-character {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            object-fit: cover !important;
+            object-position: 38% center !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .ch-sparkle {
+            position: absolute;
+            z-index: 2;
+            color: #a58aef;
+            font-size: 27px;
+            pointer-events: none;
+        }
+
+        .ch-sparkle-one {
+            top: 15%;
+            right: 10%;
+        }
+
+        .ch-sparkle-two {
+            bottom: 12%;
+            left: 8%;
+            font-size: 18px;
+        }
+
+        /* ========================================
+           6. การ์ดเข้าสู่ระบบ
+        ======================================== */
+        .ch-login-card {
+            width: 100%;
+            min-width: 0;
+            padding: clamp(25px, 2.5vw, 36px);
+            background: rgba(255, 255, 255, .94) !important;
+            border: 1px solid rgba(224, 213, 246, .85) !important;
+            border-radius: 25px !important;
+            box-shadow: 0 22px 60px rgba(104, 78, 161, .12) !important;
+        }
+
+        .ch-login-title {
+            margin: 0;
+            color: #362e4d;
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .ch-login-subtitle {
+            margin: 9px 0 25px;
+            color: var(--ch-muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .ch-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ch-login-form > label {
+            margin-top: 4px;
+            color: #4c4265;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .ch-login-form input[type="email"],
+        .ch-login-form input[type="password"],
+        .ch-login-form input[type="text"] {
+            width: 100%;
+            height: 49px;
+            margin: 0;
+            padding: 0 14px;
+            color: #302943;
+            background: var(--ch-input) !important;
+            border: 1px solid var(--ch-border) !important;
+            border-radius: 12px !important;
+            outline: none;
+            box-shadow: none;
+            font-size: 13px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .ch-login-form input::placeholder {
+            color: #aaa1bc;
+        }
+
+        .ch-login-form input:focus {
+            border-color: #a58be9 !important;
+            box-shadow: 0 0 0 3px rgba(137, 103, 223, .12) !important;
+        }
+
+        /* ช่องรหัสผ่านและปุ่มแสดง/ซ่อน */
+        .ch-password {
+            position: relative;
+            width: 100%;
+        }
+
+        .ch-password input {
+            padding-right: 65px !important;
+        }
+
+        .ch-password #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            min-width: 44px;
+            padding: 8px 5px;
+            color: var(--ch-purple-dark);
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .ch-password #togglePassword:focus-visible {
+            outline: 2px solid var(--ch-purple);
+            outline-offset: 2px;
+            border-radius: 5px;
+        }
+
+        /* ตัวเลือกจดจำและลืมรหัสผ่าน */
+        .ch-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 9px 0 12px;
+        }
+
+        .ch-remember {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #817895;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .ch-remember input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--ch-purple);
+        }
+
+        #forgotPassword {
+            color: var(--ch-purple-dark);
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        #forgotPassword:hover,
+        #registerLink:hover {
+            text-decoration: underline;
+        }
+
+        /* ปุ่มเข้าสู่ระบบ */
+        .ch-submit {
+            width: 100%;
+            min-height: 50px;
+            margin-top: 2px;
+            color: #fff;
+            background: linear-gradient(100deg, #a58aef, #7958d7) !important;
+            border: 0 !important;
+            border-radius: 30px !important;
+            box-shadow: 0 9px 22px rgba(127, 92, 208, .22) !important;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .ch-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(127, 92, 208, .29) !important;
+        }
+
+        .ch-submit:focus-visible {
+            outline: 3px solid rgba(137, 103, 223, .4);
+            outline-offset: 3px;
+        }
+
+        /* ========================================
+           7. ปุ่มเลือกบทบาทการเข้าสู่ระบบ
+        ======================================== */
+        .ch-role-select {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 14px;
+            color: var(--ch-purple-dark);
+            background: #ffffff;
+            border: 1px solid var(--ch-border);
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition:
+                background .2s,
+                border-color .2s,
+                transform .2s;
+        }
+
+        .ch-role-select:hover {
+            background: var(--ch-lavender);
+            border-color: #cbb8f5;
+            transform: translateY(-1px);
+        }
+
+        .ch-role-select:focus-visible {
+            outline: 3px solid rgba(137, 103, 223, .35);
+            outline-offset: 3px;
+        }
+
+        /* เส้นแบ่งและสมัครสมาชิก */
+        .ch-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0;
+            color: #a49bb6;
+            font-size: 11px;
+        }
+
+        .ch-divider::before,
+        .ch-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee8f8;
+        }
+
+        .ch-register {
+            margin: 0;
+            color: #89819e;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        #registerLink {
+            margin-left: 5px;
+            color: var(--ch-purple-dark);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        #message {
+            margin: 12px 0 0;
+            color: #b23e61;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        #message:empty {
+            display: none;
+        }
+
+        /* ========================================
+           8. ส่วนท้ายเว็บไซต์
+        ======================================== */
+        .ch-footer {
+            padding: 17px 5%;
+            color: #968ba9;
+            border-top: 1px solid rgba(226, 216, 243, .7);
+            text-align: center;
+            font-size: 10px;
+        }
+
+        /* ========================================
+           9. หน้าจอแท็บเล็ต
+        ======================================== */
+        @media (max-width: 1100px) {
+            .ch-header,
+            .ch-main {
+                width: calc(100% - 48px);
+            }
+
+            .ch-main {
+                grid-template-columns:
+                    minmax(0, .9fr)
+                    minmax(0, 1fr);
+                gap: 28px;
+            }
+
+            .ch-intro {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .ch-visual {
+                grid-column: 1;
+                grid-row: 2;
+                height: 290px;
+            }
+
+            .ch-login-card {
+                grid-column: 2;
+                grid-row: 1 / span 2;
+            }
+
+            .ch-title {
+                font-size: clamp(29px, 3.4vw, 36px);
+            }
+
+            .ch-benefits {
+                display: none;
+            }
+        }
+
+        /* ========================================
+           10. หน้าจอมือถือ
+        ======================================== */
+        @media (max-width: 700px) {
+            .ch-header {
+                width: calc(100% - 32px);
+                min-height: 76px;
+            }
+
+            .ch-logo {
+                width: 44px !important;
+                height: 44px !important;
+                flex-basis: 44px;
+            }
+
+            .ch-brand {
+                gap: 9px;
+            }
+
+            .ch-brand-name {
+                font-size: 21px;
+            }
+
+            .ch-tagline {
+                font-size: 10px;
+            }
+
+            .ch-header-note {
+                display: none;
+            }
+
+            .ch-main {
+                width: calc(100% - 32px);
+                padding: 17px 0 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 21px;
+            }
+
+            .ch-intro {
+                order: 1;
+            }
+
+            .ch-visual {
+                order: 2;
+                width: 100%;
+                height: clamp(225px, 62vw, 330px);
+                border-radius: 20px;
+            }
+
+            .ch-login-card {
+                order: 3;
+                padding: 27px 22px;
+                border-radius: 22px !important;
+            }
+
+            .ch-pill {
+                margin-bottom: 13px;
+            }
+
+            .ch-title {
+                font-size: clamp(29px, 7.8vw, 36px);
+                line-height: 1.45;
+            }
+
+            .ch-description {
+                margin: 12px 0 0;
+                font-size: 12px;
+                line-height: 1.9;
+            }
+
+            .ch-benefits {
+                display: none;
+            }
+
+            .ch-login-title {
+                font-size: 24px;
+            }
+        }
+
+        /* ========================================
+           11. มือถือจอเล็ก
+        ======================================== */
+        @media (max-width: 380px) {
+            .ch-header,
+            .ch-main {
+                width: calc(100% - 24px);
+            }
+
+            .ch-login-card {
+                padding: 23px 17px;
+            }
+
+            .ch-options {
+                align-items: flex-start;
+            }
+
+            .ch-remember {
+                font-size: 10px;
+            }
+        }
+
+        /* ลดภาพเคลื่อนไหวตามการตั้งค่าของอุปกรณ์ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ch-page">
+
+        <!-- ส่วนหัวและโลโก้ -->
+        <header class="ch-header">
+            <a href="index.html" class="ch-brand" aria-label="CosplayHub">
+                <img
+                    src="images/logo.png"
+                    alt="โลโก้ CosplayHub"
+                    class="ch-logo"
+                >
+
+                <span>
+                    <span class="ch-brand-name">Cosplay<span>Hub</span></span>
+                    <span class="ch-tagline">พื้นที่ของคนรักคอสเพลย์</span>
+                </span>
+            </a>
+
+            <div class="ch-header-note">
+                ค้นหาชุดที่ใช่ในแบบของคุณ ✦
+            </div>
+        </header>
+
+        <!-- เนื้อหาหลัก -->
+        <main class="ch-main">
+
+            <!-- ข้อความแนะนำเว็บไซต์ -->
+            <section class="ch-intro">
+                <div class="ch-pill">
+                    <span aria-hidden="true">✦</span>
+                    พื้นที่ของคนรักคอสเพลย์
+                </div>
+
+                <h1 class="ch-title">
+                    เช่าชุดคอสเพลย์<br>
+                    ให้ทุกช่วงเวลา<br>
+                    <span>พิเศษกว่าเดิม</span>
+                </h1>
+
+                <p class="ch-description">
+                    ค้นหาชุดคอสเพลย์ที่ตรงใจ ดูรายละเอียดชุด
+                    วิก และพร็อพ พร้อมส่งคำขอเช่าได้สะดวกในที่เดียว
+                </p>
+
+                <div class="ch-benefits">
+                    <div class="ch-benefit">
+                        <div class="ch-benefit-icon" aria-hidden="true">⌕</div>
+                        <div>
+                            <strong>ค้นหาชุดได้ง่าย</strong>
+                            <small>เลือกดูชุดที่ตรงกับสไตล์ของคุณ</small>
+                        </div>
+                    </div>
+
+                    <div class="ch-benefit">
+                        <div class="ch-benefit-icon" aria-hidden="true">☆</div>
+                        <div>
+                            <strong>ดูรายละเอียดครบ</strong>
+                            <small>ตรวจสอบตัวชุด วิก และพร็อพ</small>
+                        </div>
+                    </div>
+
+                    <div class="ch-benefit">
+                        <div class="ch-benefit-icon" aria-hidden="true">▦</div>
+                        <div>
+                            <strong>ส่งคำขอเช่า</strong>
+                            <small>เลือกวันเช่าและวันคืนที่ต้องการ</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ภาพประกอบ -->
+            <div class="ch-visual">
+                <img
+                    class="ch-character"
+                    src="images/images/login-character.jpg"
+                    alt="ตัวละครในร้านคอสเพลย์"
+                >
+
+                <span
+                    class="ch-sparkle ch-sparkle-one"
+                    aria-hidden="true"
+                >✦</span>
+
+                <span
+                    class="ch-sparkle ch-sparkle-two"
+                    aria-hidden="true"
+                >✧</span>
+            </div>
+
+            <!-- การ์ดเข้าสู่ระบบ -->
+            <section class="ch-login-card" aria-labelledby="loginTitle">
+                <h2 class="ch-login-title" id="loginTitle">
+                    ยินดีต้อนรับกลับ!
+                </h2>
+
+                <p class="ch-login-subtitle">
+                    เข้าสู่ระบบเพื่อใช้งาน <strong>CosplayHub</strong>
+                </p>
+
+                <form id="loginForm" class="ch-login-form">
+                    <label for="email">อีเมล</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="กรอกอีเมลของคุณ"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <label for="password">รหัสผ่าน</label>
+
+                    <div class="ch-password">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="กรอกรหัสผ่าน"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            aria-controls="password"
+                            aria-label="แสดงรหัสผ่าน"
+                        >แสดง</button>
+                    </div>
+
+                    <div class="ch-options">
+                        <label class="ch-remember" for="remember">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                name="remember"
+                            >
+                            <span>จดจำการเข้าสู่ระบบ</span>
+                        </label>
+
+                        <a href="#" id="forgotPassword">
+                            ลืมรหัสผ่าน?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="ch-submit">
+                        เข้าสู่ระบบ
+                    </button>
+                </form>
+
+                <div class="ch-divider">หรือ</div>
+
+                <!-- ปุ่มใหม่: ไปยังหน้าเลือกบทบาท -->
+                <a
+                    href="login-select.html"
+                    class="ch-role-select"
+                >
+                    เลือกบทบาทการเข้าสู่ระบบ
+                </a>
+
+                <p class="ch-register" style="margin-top: 20px;">
+                    ยังไม่มีบัญชี?
+                    <a href="register.html" id="registerLink">
+                        สมัครสมาชิก
+                    </a>
+                </p>
+
+                <!-- แสดงข้อความแจ้งเตือนจากระบบเดิม -->
+                <p id="message" role="status" aria-live="polite"></p>
+            </section>
+
+        </main>
+
+        <!-- ส่วนท้ายเว็บไซต์ -->
+        <footer class="ch-footer">
+            CosplayHub · พื้นที่ของคนรักคอสเพลย์
+        </footer>
+
+    </div>
+
+    <!-- ใช้ JavaScript ระบบเข้าสู่ระบบเดิม -->
+    <script src="js/login.js"></script>
+</body>
+</html>

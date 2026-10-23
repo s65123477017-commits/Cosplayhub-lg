@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>รายละเอียดการเช่า | CosplayHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="home-header">
+
+        <a href="home.html" class="home-logo">
+            <img src="images/logo.png" alt="CosplayHub Logo">
+            <span>CosplayHub</span>
+        </a>
+
+        <nav class="home-nav">
+            <a href="home.html">หน้าแรก</a>
+            <a href="costumes.html">ชุดคอสเพลย์</a>
+            <a href="my-rentals.html" class="active">การเช่าของฉัน</a>
+        </nav>
+
+        <a href="index.html" class="logout-link">
+            ออกจากระบบ
+        </a>
+
+    </header>
+
+
+    <!-- Main -->
+    <main class="rental-detail-main">
+
+        <div class="rental-detail-back">
+            <a href="my-rentals.html">
+                ← กลับไปยังการเช่าของฉัน
+            </a>
+        </div>
+
+
+        <!-- Rental Detail -->
+        <section class="rental-detail-card" id="rentalDetailCard">
+
+            <!-- ข้อมูลจะถูกสร้างด้วย JavaScript -->
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // -----------------------------------------
+        // ดึง ID รายการจองจาก URL
+        // -----------------------------------------
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const bookingId =
+            urlParams.get("id");
+
+
+        // -----------------------------------------
+        // ดึงข้อมูลจาก localStorage
+        // -----------------------------------------
+
+        const bookings =
+            JSON.parse(
+                localStorage.getItem("cosplayHubBookings")
+            ) || [];
+
+
+        const costumes =
+            JSON.parse(
+                localStorage.getItem("cosplayHubCostumes")
+            ) || [];
+
+
+        const currentUser =
+            JSON.parse(
+                localStorage.getItem("cosplayHubCurrentUser")
+            );
+
+
+        const rentalDetailCard =
+            document.getElementById("rentalDetailCard");
+
+
+        // -----------------------------------------
+        // ตรวจสอบผู้ใช้
+        // -----------------------------------------
+
+        if (!currentUser) {
+
+            rentalDetailCard.innerHTML = `
+                <div class="rental-detail-header">
+
+                    <div>
+
+                        <span class="rental-detail-label">
+                            รายละเอียดการเช่า
+                        </span>
+
+                        <h1>
+                            กรุณาเข้าสู่ระบบ
+                        </h1>
+
+                    </div>
+
+                </div>
+
+                <div class="return-section">
+
+                    <p>
+                        กรุณาเข้าสู่ระบบก่อนดูรายละเอียดการเช่า
+                    </p>
+
+                    <a
+                        href="index.html"
+                        class="return-button"
+                        style="display:inline-block;text-decoration:none;text-align:center;"
+                    >
+                        เข้าสู่ระบบ
+                    </a>
+
+                </div>
+            `;
+
+        } else {
+
+            // -----------------------------------------
+            // ค้นหารายการจอง
+            // -----------------------------------------
+
+            const booking =
+                bookings.find(
+                    item =>
+                        String(item.id) ===
+                        String(bookingId)
+                );
+
+
+            // -----------------------------------------
+            // ถ้าไม่พบรายการ
+            // -----------------------------------------
+
+            if (!booking) {
+
+                rentalDetailCard.innerHTML = `
+                    <div class="rental-detail-header">
+
+                        <div>
+
+                            <span class="rental-detail-label">
+                                รายละเอียดการเช่า
+                            </span>
+
+                            <h1>
+                                ไม่พบรายการจอง
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                    <div class="return-section">
+
+                        <p>
+                            ไม่พบข้อมูลรายการเช่าที่ต้องการ
+                        </p>
+
+                        <a
+                            href="my-rentals.html"
+                            class="return-button"
+                            style="display:inline-block;text-decoration:none;text-align:center;"
+                        >
+                            กลับไปยังการเช่าของฉัน
+                        </a>
+
+                    </div>
+                `;
+
+            }
+
+            // -----------------------------------------
+            // ตรวจสอบว่าเป็นรายการของผู้ใช้ปัจจุบัน
+            // -----------------------------------------
+
+            else if (
+                booking.customerEmail !== currentUser.email
+            ) {
+
+                rentalDetailCard.innerHTML = `
+                    <div class="rental-detail-header">
+
+                        <div>
+
+                            <span class="rental-detail-label">
+                                รายละเอียดการเช่า
+                            </span>
+
+                            <h1>
+                                ไม่สามารถดูรายการนี้ได้
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                    <div class="return-section">
+
+                        <p>
+                            รายการนี้ไม่ใช่รายการเช่าของคุณ
+                        </p>
+
+                        <a
+                            href="my-rentals.html"
+                            class="return-button"
+                            style="display:inline-block;text-decoration:none;text-align:center;"
+                        >
+                            กลับไปยังการเช่าของฉัน
+                        </a>
+
+                    </div>
+                `;
+
+            }
+
+            else {
+
+                // -----------------------------------------
+                // ค้นหาข้อมูลชุด
+                // -----------------------------------------
+
+                const costume =
+                    costumes.find(
+                        item =>
+                            String(item.id) ===
+                            String(booking.costumeId)
+                    );
+
+
+                // -----------------------------------------
+                // แปลงวันที่
+                // -----------------------------------------
+
+                function formatDate(dateString) {
+
+                    if (!dateString) {
+                        return "--/--/----";
+                    }
+
+                    const parts =
+                        dateString.split("-");
+
+                    if (parts.length !== 3) {
+                        return dateString;
+                    }
+
+                    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
+
+
+                // -----------------------------------------
+                // ข้อความสถานะ
+                // -----------------------------------------
+
+                function getStatusText(status) {
+
+                    switch (status) {
+
+                        case "pending":
+                            return "รอร้านตรวจสอบ";
+
+                        case "confirmed":
+                            return "กำลังเช่า";
+
+                        case "rejected":
+                            return "ไม่อนุมัติการจอง";
+
+                        case "return_requested":
+                            return "รอร้านตรวจสอบการคืน";
+
+                        case "returned":
+                            return "คืนแล้ว";
+
+                        default:
+                            return "รอร้านตรวจสอบ";
+                    }
+
+                }
+
+
+                // -----------------------------------------
+                // สถานะชุด
+                // -----------------------------------------
+
+                let costumeStatus =
+                    "รอการตรวจสอบ";
+
+                if (costume) {
+
+                    if (costume.status === "available") {
+                        costumeStatus = "ว่าง";
+                    }
+
+                    if (costume.status === "unavailable") {
+                        costumeStatus = "ไม่ว่าง";
+                    }
+
+                }
+
+
+                // -----------------------------------------
+                // ข้อมูลรายการในชุด
+                // -----------------------------------------
+
+                const costumeSet =
+                    costume?.costumeSet ||
+                    "ตามรายละเอียดชุด";
+
+
+                const wig =
+                    costume?.wig ||
+                    "ตามรายละเอียดชุด";
+
+
+                const prop =
+                    costume?.prop ||
+                    "ตามรายละเอียดชุด";
+
+
+                // -----------------------------------------
+                // สร้างหน้ารายละเอียด
+                // -----------------------------------------
+
+                rentalDetailCard.innerHTML = `
+
+                    <div class="rental-detail-header">
+
+                        <div>
+
+                            <span class="rental-detail-label">
+                                รายละเอียดการเช่า
+                            </span>
+
+                            <h1>
+                                ${booking.costumeName || "ชุดคอสเพลย์"}
+                            </h1>
+
+                        </div>
+
+                        <span class="rental-detail-status">
+                            ${getStatusText(booking.status)}
+                        </span>
+
+                    </div>
+
+
+                    <!-- Rental Dates -->
+                    <div class="rental-detail-info">
+
+                        <div class="rental-detail-info-box">
+
+                            <span>
+                                วันเช่า
+                            </span>
+
+                            <strong>
+                                ${formatDate(booking.rentDate)}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="rental-detail-info-box">
+
+                            <span>
+                                วันคืน
+                            </span>
+
+                            <strong>
+                                ${formatDate(booking.returnDate)}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="rental-detail-info-box">
+
+                            <span>
+                                สถานะชุด
+                            </span>
+
+                            <strong>
+                                ${costumeStatus}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Rental Items -->
+                    <section class="returned-items-section">
+
+                        <h2>
+                            รายการที่ต้องคืน
+                        </h2>
+
+                        <p class="returned-items-note">
+                            กรุณาตรวจสอบรายการให้ครบก่อนแจ้งคืนชุด
+                        </p>
+
+
+                        <div class="returned-item">
+
+                            <div>
+
+                                <strong>
+                                    ตัวชุด
+                                </strong>
+
+                                <span>
+                                    ${costumeSet}
+                                </span>
+
+                            </div>
+
+                            <span class="returned-item-status">
+                                ${
+                                    booking.status === "returned"
+                                        ? "คืนแล้ว"
+                                        : "รอคืน"
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="returned-item">
+
+                            <div>
+
+                                <strong>
+                                    วิก
+                                </strong>
+
+                                <span>
+                                    ${wig}
+                                </span>
+
+                            </div>
+
+                            <span class="returned-item-status">
+                                ${
+                                    booking.status === "returned"
+                                        ? "คืนแล้ว"
+                                        : "รอคืน"
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="returned-item">
+
+                            <div>
+
+                                <strong>
+                                    พร็อพ
+                                </strong>
+
+                                <span>
+                                    ${prop}
+                                </span>
+
+                            </div>
+
+                            <span class="returned-item-status">
+                                ${
+                                    booking.status === "returned"
+                                        ? "คืนแล้ว"
+                                        : "รอคืน"
+                                }
+                            </span>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- Return -->
+                    <section class="return-section">
+
+                        <h2>
+                            แจ้งคืนชุด
+                        </h2>
+
+                        <p>
+                            ${
+                                booking.status === "confirmed"
+                                    ? "เมื่อเตรียมชุด ตัววิก และพร็อพสำหรับคืนเรียบร้อยแล้ว สามารถส่งคำขอแจ้งคืนให้ร้านตรวจสอบได้"
+                                    : booking.status === "return_requested"
+                                        ? "ส่งคำขอคืนชุดแล้ว กรุณารอร้านตรวจสอบการคืน"
+                                        : booking.status === "returned"
+                                            ? "ร้านยืนยันการคืนชุดเรียบร้อยแล้ว"
+                                            : "รายการนี้ยังไม่สามารถแจ้งคืนชุดได้"
+                            }
+                        </p>
+
+
+                        ${
+                            booking.status === "confirmed"
+                                ? `
+                                    <button
+                                        type="button"
+                                        class="return-button"
+                                    >
+                                        แจ้งคืนชุด
+                                    </button>
+                                `
+                                : booking.status === "return_requested"
+                                    ? `
+                                        <button
+                                            type="button"
+                                            class="return-button"
+                                            disabled
+                                        >
+                                            รอร้านตรวจสอบ
+                                        </button>
+                                    `
+                                    : booking.status === "returned"
+                                        ? `
+                                            <button
+                                                type="button"
+                                                class="return-button"
+                                                disabled
+                                            >
+                                                คืนชุดเรียบร้อยแล้ว
+                                            </button>
+                                        `
+                                        : ""
+                        }
+
+                    </section>
+
+                `;
+
+            }
+
+        }
+
+    </script>
+
+
+    <script src="js/return.js"></script>
+
+</body>
+</html>

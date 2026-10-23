@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+    <title>รายการสินค้า | CosplayHub</title>
+
+    <style>
+        :root {
+            --primary: #7655d9;
+            --primary-dark: #6241c4;
+            --primary-light: #eee7ff;
+            --background: #f7f5fb;
+            --white: #fff;
+            --text: #302944;
+            --muted: #89819b;
+            --border: #ece5fa;
+            --green: #247747;
+            --green-bg: #e7f6ec;
+            --red: #c43d4b;
+            --red-bg: #fff0f1;
+            --shadow: 0 8px 28px rgba(68,43,115,.06);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans Thai", "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 28px;
+            background: rgba(255,255,255,.97);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: var(--primary-dark);
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand-name span { color: var(--primary); }
+
+        .header-right, .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link, .logout-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .nav-link { color: #655d76; }
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+        }
+
+        .logout-link {
+            gap: 7px;
+            color: var(--primary-dark);
+            border: 1px solid #e4d9f7;
+            background: white;
+        }
+
+        .logout-link:hover { background: var(--primary-light); }
+
+        .page-container {
+            width: min(1320px, calc(100% - 48px));
+            margin: 30px auto 56px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 9px;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .breadcrumb-current { color: var(--primary-dark); }
+
+        .page-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .heading-text h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .heading-text p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 11px 18px;
+            border: 1px solid var(--primary);
+            border-radius: 11px;
+            color: white;
+            background: var(--primary);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .primary-button:hover { background: var(--primary-dark); }
+
+        .content-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-top h2 { margin: 0; font-size: 17px; }
+        .card-top p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+        .card-label {
+            padding: 7px 11px;
+            border-radius: 20px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .table-scroll { width: 100%; overflow-x: auto; }
+        .costume-table { width: 100%; min-width: 1080px; }
+
+        .costume-table-header, .costume-table-row {
+            display: grid;
+            grid-template-columns:
+                minmax(210px,1.6fr)
+                minmax(125px,1fr)
+                minmax(120px,.9fr)
+                minmax(135px,1fr)
+                minmax(150px,1fr)
+                minmax(150px,1fr);
+            align-items: center;
+            gap: 16px;
+        }
+
+        .costume-table-header {
+            min-height: 52px;
+            padding: 12px 24px;
+            color: #766d89;
+            background: #fbfaff;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .costume-table-row {
+            min-height: 90px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0ebf8;
+            color: #514962;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .shop-costume-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .shop-costume-name img {
+            width: 56px;
+            height: 64px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #f6f1ff;
+        }
+
+        .shop-costume-name strong { display: block; }
+        .shop-costume-name span { color: var(--muted); font-size: 11px; }
+
+        .shop-status-badge {
+            display: inline-flex;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .shop-status-badge.available {
+            color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .shop-status-badge.unavailable {
+            color: var(--red);
+            background: var(--red-bg);
+        }
+
+        .shop-status-actions, .shop-costume-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .shop-status-actions .toggle-costume-status-button,
+        .shop-costume-actions .edit-costume-button,
+        .shop-costume-actions .delete-costume-button {
+            min-height: 32px;
+            padding: 7px 10px;
+            border: 1px solid #e2d9f0;
+            border-radius: 8px;
+            background: white;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .toggle-costume-status-button, .edit-costume-button {
+            color: var(--primary-dark);
+        }
+
+        .delete-costume-button {
+            color: var(--red);
+            border-color: #f0d8dc !important;
+        }
+
+        .costume-empty-state {
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 17px;
+            border-radius: 18px;
+            color: var(--primary);
+            background: var(--primary-light);
+            font-size: 30px;
+        }
+
+        .costume-empty-state strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .costume-empty-state p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .site-footer {
+            padding: 22px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .site-header { align-items: flex-start; flex-direction: column; }
+            .header-right { width: 100%; flex-wrap: wrap; }
+            .main-nav { flex-wrap: wrap; }
+        }
+
+        @media (max-width: 600px) {
+            .site-header { padding: 12px 14px; }
+            .header-right { align-items: flex-start; flex-direction: column; }
+            .main-nav { width: 100%; flex-wrap: wrap; }
+            .nav-link { padding: 9px 10px; font-size: 12px; }
+            .page-container { width: calc(100% - 24px); margin-top: 22px; }
+            .page-heading { align-items: stretch; flex-direction: column; }
+            .heading-text h1 { font-size: 23px; }
+            .primary-button { align-self: flex-start; }
+            .card-top { align-items: flex-start; flex-direction: column; padding: 18px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- แถบเมนูร้านค้า -->
+    <header class="site-header">
+        <a class="brand" href="home.html" aria-label="CosplayHub หน้าแรก">
+            <img src="images/logo.png" alt="CosplayHub">
+            <span class="brand-name">Cosplay<span>Hub</span></span>
+        </a>
+
+        <div class="header-right">
+            <nav class="main-nav" aria-label="เมนูร้านค้า">
+                <a class="nav-link active" href="shop-costumes.html" aria-current="page">รายการสินค้า</a>
+                <a class="nav-link" href="shop-bookings.html">รายการจอง</a>
+                <a class="nav-link" href="shop-returns.html">รายการคืนชุด</a>
+            </nav>
+
+            <a class="logout-link" href="shop-login.html">
+                <span aria-hidden="true">↪</span> ออกจากระบบ
+            </a>
+        </div>
+    </header>
+
+    <!-- เนื้อหาหลัก -->
+    <main class="page-container">
+        <div class="breadcrumb">
+            <a href="home.html">หน้าแรก</a>
+            <span aria-hidden="true">/</span>
+            <span class="breadcrumb-current">รายการสินค้า</span>
+        </div>
+
+        <section class="page-heading">
+            <div class="heading-text">
+                <h1>รายการสินค้า</h1>
+                <p>จัดการรายละเอียดตัวชุด วิก พร็อพ และสถานะความพร้อมให้เช่า</p>
+            </div>
+
+            <a class="primary-button" href="shop-costume-form.html">＋ เพิ่มชุดคอสเพลย์</a>
+        </section>
+
+        <section class="content-card">
+            <div class="card-top">
+                <div>
+                    <h2>ชุดคอสเพลย์ทั้งหมด</h2>
+                    <p>ตรวจสอบและจัดการข้อมูลชุดของร้าน</p>
+                </div>
+                <span class="card-label">ข้อมูลสินค้า</span>
+            </div>
+
+            <div class="table-scroll">
+                <div class="costume-table">
+                    <div class="costume-table-header">
+                        <div>ชื่อชุด</div>
+                        <div>ตัวชุด</div>
+                        <div>วิก</div>
+                        <div>พร็อพ</div>
+                        <div>สถานะ</div>
+                        <div>จัดการ</div>
+                    </div>
+
+                    <!-- JavaScript เดิมจะสร้างแถวรายการชุดในส่วนนี้ -->
+                    <div class="costume-empty-state">
+                        <div class="empty-icon" aria-hidden="true">♧</div>
+                        <strong>ยังไม่มีรายการชุดคอสเพลย์</strong>
+                        <p>เลือก “เพิ่มชุดคอสเพลย์” เพื่อเพิ่มรายการสินค้า</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">CosplayHub · จัดการชุดคอสเพลย์ของร้าน</footer>
+
+    <!-- ใช้ JavaScript เดิมสำหรับเพิ่ม แก้ไข ลบ และเปลี่ยนสถานะ -->
+    <script src="js/shop-costumes.js"></script>
+</body>
+</html>

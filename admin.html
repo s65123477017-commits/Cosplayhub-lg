@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการระบบ | CosplayHub</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ===== Admin Dashboard ===== */
+        .admin-page {
+            min-height: 100vh;
+            background: #f8f6fc;
+            color: #332344;
+        }
+
+        .admin-header {
+            background: #fff;
+            border-bottom: 1px solid #eee6f7;
+        }
+
+        .admin-header-inner {
+            max-width: 1240px;
+            margin: auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #39264d;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .admin-logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .admin-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-role {
+            color: #746680;
+            font-size: 14px;
+        }
+
+        .admin-logout {
+            padding: 10px 16px;
+            border: 1px solid #e3d5f3;
+            border-radius: 10px;
+            background: white;
+            color: #7045a2;
+            cursor: pointer;
+        }
+
+        .admin-logout:hover {
+            background: #f5effd;
+        }
+
+        .admin-container {
+            width: min(1180px, calc(100% - 40px));
+            margin: 34px auto;
+        }
+
+        .admin-welcome {
+            padding: 28px 30px;
+            margin-bottom: 24px;
+            border: 1px solid #e9ddfa;
+            border-radius: 20px;
+            background: linear-gradient(120deg, #f0e9ff, #fff 75%);
+        }
+
+        .admin-welcome h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .admin-welcome p {
+            margin: 0;
+            color: #766783;
+            line-height: 1.7;
+        }
+
+        /* ===== Summary Cards ===== */
+        .admin-summary {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 34px;
+        }
+
+        .admin-summary-card {
+            display: block;
+            min-width: 0;
+            padding: 24px;
+            border: 1px solid #ece3f6;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(70, 40, 100, .04);
+        }
+
+        .admin-summary-card h2 {
+            margin: 0 0 16px;
+            color: #6d607b;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .admin-summary-card p {
+            margin: 0;
+            color: #7c4db1;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        /* คลิกการ์ดคืนชุดเพื่อไปหน้าตรวจสอบเดิม */
+        .admin-summary-link {
+            color: inherit;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .admin-summary-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(70, 40, 100, .09);
+        }
+
+        .admin-summary-link:focus-visible {
+            outline: 3px solid #a980d1;
+            outline-offset: 3px;
+        }
+
+        .admin-summary-link .return-count {
+            color: #b45309;
+        }
+
+        .admin-summary-link .return-hint {
+            display: block;
+            margin-top: 12px;
+            color: #8a6b4a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .admin-summary-link.has-pending-return {
+            border-color: #f0c995;
+            background: #fffaf2;
+        }
+
+        .admin-summary-link.has-pending-return h2 {
+            color: #99500d;
+        }
+
+        .admin-management h2 {
+            margin: 0 0 18px;
+            font-size: 22px;
+        }
+
+        .admin-menu-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .admin-menu-card {
+            position: relative;
+            display: block;
+            min-height: 120px;
+            padding: 24px;
+            border: 1px solid #ece3f6;
+            border-radius: 18px;
+            background: #fff;
+            color: #38264b;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .admin-menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(70, 40, 100, .08);
+        }
+
+        .admin-menu-card h3 {
+            margin: 0 0 10px;
+            color: #7045a2;
+            font-size: 18px;
+        }
+
+        .admin-menu-card p {
+            margin: 0;
+            color: #786d83;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .admin-menu-arrow {
+            position: absolute;
+            right: 20px;
+            top: 24px;
+            color: #8b65b7;
+            font-size: 22px;
+        }
+
+        .admin-footer {
+            padding: 24px 16px;
+            color: #8a7c96;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1050px) {
+            .admin-summary {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-menu-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .admin-header-inner {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+
+            .admin-container {
+                width: calc(100% - 28px);
+                margin: 22px auto;
+            }
+
+            .admin-summary,
+            .admin-menu-list {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-welcome {
+                padding: 22px;
+            }
+
+            .admin-welcome h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+
+    <!-- ตรวจสอบสิทธิ์ก่อนแสดงหน้า Admin -->
+    <script>
+        (function () {
+            try {
+                const admin = JSON.parse(
+                    localStorage.getItem("cosplayHubAdminUser") || "null"
+                );
+
+                if (
+                    !admin ||
+                    admin.role !== "admin" ||
+                    admin.email !== "admin@cosplayhub.com"
+                ) {
+                    window.location.replace("admin-login.html");
+                }
+            } catch (error) {
+                window.location.replace("admin-login.html");
+            }
+        })();
+    </script>
+</head>
+
+<body class="admin-page">
+    <header class="admin-header">
+        <div class="admin-header-inner">
+            <a href="admin.html" class="admin-brand">
+                <img src="images/logo.png" alt="CosplayHub" class="admin-logo">
+                <span>CosplayHub</span>
+            </a>
+
+            <div class="admin-header-actions">
+                <span class="admin-role">ผู้ดูแลระบบ</span>
+                <button type="button" id="adminLogoutButton" class="admin-logout">
+                    ออกจากระบบ
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="admin-welcome">
+            <h1>จัดการระบบ</h1>
+            <p>ภาพรวมข้อมูลการเช่าชุดคอสเพลย์</p>
+        </section>
+
+        <!-- ===== สรุปข้อมูลระบบ ===== -->
+        <section class="admin-summary">
+            <article class="admin-summary-card">
+                <h2>ชุดคอสเพลย์ทั้งหมด</h2>
+                <p id="costumeCount">0</p>
+            </article>
+
+            <article class="admin-summary-card">
+                <h2>รายการจองทั้งหมด</h2>
+                <p id="bookingCount">0</p>
+            </article>
+
+            <article class="admin-summary-card">
+                <h2>รายการจองรอตรวจสอบ</h2>
+                <p id="pendingCount">0</p>
+            </article>
+
+            <!-- คลิกเพื่อเปิดหน้าตรวจสอบการคืนชุด -->
+            <a
+                href="shop-returns.html"
+                class="admin-summary-card admin-summary-link"
+                id="pendingReturnCard"
+                aria-label="ดูรายการคืนชุดรอตรวจสอบ"
+            >
+                <h2>รายการคืนชุดรอตรวจสอบ</h2>
+                <p class="return-count" id="pendingReturnCount">0</p>
+                <span class="return-hint" id="pendingReturnHint">
+                    คลิกเพื่อดูรายการคืนชุด
+                </span>
+            </a>
+        </section>
+
+        <!-- ===== เมนูจัดการ ===== -->
+        <section class="admin-management">
+            <h2>เมนูจัดการ</h2>
+
+            <div class="admin-menu-list">
+                <a href="shop-costumes.html" class="admin-menu-card">
+                    <span class="admin-menu-arrow">›</span>
+                    <h3>จัดการชุดคอสเพลย์</h3>
+                    <p>ดูและจัดการรายการชุดของร้าน</p>
+                </a>
+
+                <a href="shop-bookings.html" class="admin-menu-card">
+                    <span class="admin-menu-arrow">›</span>
+                    <h3>จัดการรายการจอง</h3>
+                    <p>ตรวจสอบ ยืนยัน หรือปฏิเสธคำขอเช่า</p>
+                </a>
+
+                <a href="shop-returns.html" class="admin-menu-card">
+                    <span class="admin-menu-arrow">›</span>
+                    <h3>ตรวจสอบการคืนชุด</h3>
+                    <p>ตรวจสอบคำขอคืนชุดและบันทึกการคืน</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="admin-footer">
+        CosplayHub · ระบบจัดการร้านเช่าชุดคอสเพลย์
+    </footer>
+
+    <script>
+        /* ===== ออกจากระบบ Admin ===== */
+        document.getElementById("adminLogoutButton")
+            .addEventListener("click", function () {
+                localStorage.removeItem("cosplayHubAdminUser");
+                window.location.href = "login-select.html";
+            });
+
+        /* ===== อ่านข้อมูลและแสดงสรุป ===== */
+        function readStoredArray(key) {
+            try {
+                const data = JSON.parse(
+                    localStorage.getItem(key) || "[]"
+                );
+
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                console.error("อ่านข้อมูลไม่สำเร็จ:", key, error);
+                return [];
+            }
+        }
+
+        function loadAdminSummary() {
+            const costumes = readStoredArray("cosplayHubCostumes");
+            const bookings = readStoredArray("cosplayHubBookings");
+
+            // จำนวนชุดทั้งหมด
+            document.getElementById("costumeCount").textContent =
+                costumes.length;
+
+            // จำนวนรายการจองทั้งหมด
+            document.getElementById("bookingCount").textContent =
+                bookings.length;
+
+            // จำนวนคำขอจองที่รอร้านตรวจสอบ
+            const pendingBookings = bookings.filter(function (booking) {
+                return !booking.status || booking.status === "pending";
+            });
+
+            document.getElementById("pendingCount").textContent =
+                pendingBookings.length;
+
+            // จำนวนคำขอคืนชุดที่รอร้านตรวจสอบ
+            const pendingReturns = bookings.filter(function (booking) {
+                return booking.status === "return_requested";
+            });
+
+            document.getElementById("pendingReturnCount").textContent =
+                pendingReturns.length;
+
+            // เน้นการ์ดเมื่อมีรายการคืนชุดรอตรวจสอบ
+            const returnCard = document.getElementById("pendingReturnCard");
+            const returnHint = document.getElementById("pendingReturnHint");
+
+            if (pendingReturns.length > 0) {
+                returnCard.classList.add("has-pending-return");
+
+                returnHint.textContent =
+                    "มีรายการรอตรวจสอบ คลิกเพื่อเปิดรายการ";
+            } else {
+                returnCard.classList.remove("has-pending-return");
+
+                returnHint.textContent =
+                    "ยังไม่มีรายการคืนชุดรอตรวจสอบ";
+            }
+        }
+
+        loadAdminSummary();
+    </script>
+</body>
+</html>

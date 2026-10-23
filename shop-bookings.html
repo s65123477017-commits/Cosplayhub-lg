@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+    <title>รายการจอง | CosplayHub</title>
+
+    <style>
+        /* =========================
+           1. สีและค่าพื้นฐาน
+        ========================= */
+        :root {
+            --primary: #7655d9;
+            --primary-dark: #6241c4;
+            --primary-light: #eee7ff;
+            --background: #f7f5fb;
+            --white: #ffffff;
+            --text: #302944;
+            --muted: #89819b;
+            --border: #ece5fa;
+            --green: #247747;
+            --green-bg: #e7f6ec;
+            --red: #c43d4b;
+            --red-bg: #fff0f1;
+            --orange: #a96312;
+            --orange-bg: #fff3df;
+            --shadow: 0 8px 28px rgba(68, 43, 115, .06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans Thai", "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           2. ส่วนหัวเว็บไซต์
+        ========================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, .97);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: var(--primary-dark);
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .header-right,
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link,
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background .2s, color .2s;
+        }
+
+        .nav-link {
+            color: #655d76;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+        }
+
+        .logout-link {
+            color: var(--primary-dark);
+            border: 1px solid #e4d9f7;
+            background: var(--white);
+        }
+
+        .logout-link:hover {
+            background: var(--primary-light);
+        }
+
+        /* =========================
+           3. พื้นที่เนื้อหา
+        ========================= */
+        .page-container {
+            width: min(1320px, calc(100% - 48px));
+            margin: 30px auto 56px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-dark);
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 8px;
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           4. สรุปจำนวนรายการ
+        ========================= */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 23px;
+        }
+
+        .summary-label {
+            margin-bottom: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .summary-value {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           5. กล่องรายการจอง
+        ========================= */
+        .content-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-top h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .card-top p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .card-label {
+            padding: 7px 12px;
+            border-radius: 20px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           6. ช่องค้นหาและตัวกรองสถานะ
+        ========================= */
+        .booking-filter {
+            display: grid;
+            grid-template-columns: minmax(220px, 1.5fr) minmax(190px, 1fr) auto;
+            align-items: end;
+            gap: 14px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .booking-search,
+        .booking-status-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .booking-filter label {
+            color: #655d76;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .booking-filter input,
+        .booking-filter select {
+            width: 100%;
+            min-height: 43px;
+            padding: 9px 12px;
+            border: 1px solid #e2d9f0;
+            border-radius: 9px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+        }
+
+        .booking-filter input:focus,
+        .booking-filter select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(118, 85, 217, .12);
+        }
+
+        .booking-filter #resetBookingFilter {
+            min-height: 43px;
+            padding: 9px 14px;
+            border: 1px solid #e2d9f0;
+            border-radius: 9px;
+            color: var(--primary-dark);
+            background: white;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .booking-filter #resetBookingFilter:hover {
+            background: var(--primary-light);
+        }
+
+        .booking-filter-count {
+            padding: 12px 24px;
+            color: var(--muted);
+            background: #fcfbff;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .booking-no-results {
+            display: none;
+            padding: 32px 20px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* =========================
+           7. ตารางรายการจอง
+        ========================= */
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .booking-table {
+            width: 100%;
+            min-width: 1060px;
+        }
+
+        .booking-table-row {
+            display: grid;
+            grid-template-columns:
+                minmax(140px, 1.05fr)
+                minmax(170px, 1.35fr)
+                minmax(115px, .9fr)
+                minmax(115px, .9fr)
+                minmax(145px, 1fr)
+                minmax(235px, 1.7fr);
+            align-items: center;
+            gap: 14px;
+            padding: 17px 24px;
+            border-bottom: 1px solid #f0ebf8;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .booking-table-header {
+            min-height: 52px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            color: #766d89;
+            background: #fbfaff;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .booking-data-row {
+            min-height: 86px;
+            color: #514962;
+        }
+
+        .booking-data-row:hover {
+            background: #fdfcff;
+        }
+
+        .booking-data-row > div {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           8. ป้ายสถานะ
+        ========================= */
+        .booking-status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            max-width: 100%;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 750;
+            line-height: 1.6;
+        }
+
+        .booking-status-badge.pending {
+            color: var(--orange);
+            background: var(--orange-bg);
+        }
+
+        .booking-status-badge.confirmed {
+            color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .booking-status-badge.rejected {
+            color: var(--red);
+            background: var(--red-bg);
+        }
+
+        .booking-status-badge.return_requested {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+        }
+
+        .booking-status-badge.returned {
+            color: var(--green);
+            background: var(--green-bg);
+        }
+
+        /* =========================
+           9. ปุ่มจัดการรายการจอง
+        ========================= */
+        .booking-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .booking-actions button {
+            min-height: 34px;
+            padding: 7px 10px;
+            border: 1px solid #e2d9f0;
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 12px;
+            font-weight: 700;
+            transition: background .2s, border-color .2s;
+        }
+
+        .booking-view-button {
+            color: var(--primary-dark);
+        }
+
+        .booking-view-button:hover {
+            background: var(--primary-light);
+        }
+
+        .booking-confirm-button {
+            color: var(--green);
+            border-color: #cde9d6 !important;
+        }
+
+        .booking-confirm-button:hover {
+            background: var(--green-bg);
+        }
+
+        .booking-reject-button {
+            color: var(--red);
+            border-color: #f0d8dc !important;
+        }
+
+        .booking-reject-button:hover {
+            background: var(--red-bg);
+        }
+
+        .booking-actions .booking-delete-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            min-width: 34px;
+            height: 34px;
+            padding: 0;
+            color: var(--red);
+            border-color: #f0d8dc;
+            background: var(--white);
+            font-size: 15px;
+        }
+
+        .booking-actions .booking-delete-button:hover {
+            background: var(--red-bg);
+            border-color: #e9b9c0;
+        }
+
+        .booking-delete-button:focus-visible {
+            outline: 2px solid var(--red);
+            outline-offset: 2px;
+        }
+
+        /* =========================
+           10. สถานะไม่มีข้อมูล
+        ========================= */
+        .booking-empty-state {
+            padding: 58px 24px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 17px;
+            border-radius: 18px;
+            color: var(--primary);
+            background: var(--primary-light);
+            font-size: 29px;
+        }
+
+        .booking-empty-state h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .booking-empty-state p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           11. ส่วนท้าย
+        ========================= */
+        .site-footer {
+            padding: 22px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* =========================
+           12. หน้าจอขนาดกลาง
+        ========================= */
+        @media (max-width: 1000px) {
+            .site-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .summary-grid {
+                gap: 10px;
+            }
+
+            .summary-card {
+                padding: 15px;
+            }
+        }
+
+        /* =========================
+           13. มือถือ
+        ========================= */
+        @media (max-width: 650px) {
+            .site-header {
+                padding: 12px 14px;
+            }
+
+            .header-right {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .main-nav {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+
+            .page-container {
+                width: calc(100% - 24px);
+                margin-top: 22px;
+            }
+
+            .page-heading h1 {
+                font-size: 23px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                padding: 16px;
+            }
+
+            .card-top {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 18px;
+            }
+
+            .booking-filter {
+                grid-template-columns: 1fr;
+                padding: 18px;
+            }
+
+            .booking-filter #resetBookingFilter {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ส่วนหัวเว็บไซต์ -->
+    <header class="site-header">
+        <a class="brand" href="home.html" aria-label="CosplayHub หน้าแรก">
+            <img src="images/logo.png" alt="CosplayHub">
+            <span class="brand-name">Cosplay<span>Hub</span></span>
+        </a>
+
+        <div class="header-right">
+            <nav class="main-nav" aria-label="เมนูร้านค้า">
+                <a class="nav-link" href="shop-costumes.html">รายการสินค้า</a>
+                <a class="nav-link active" href="shop-bookings.html" aria-current="page">รายการจอง</a>
+                <a class="nav-link" href="shop-returns.html">รายการคืนชุด</a>
+            </nav>
+
+            <a class="logout-link" href="shop-login.html">
+                <span aria-hidden="true">↪</span>
+                ออกจากระบบ
+            </a>
+        </div>
+    </header>
+
+    <!-- เนื้อหาหลัก -->
+    <main class="page-container">
+        <div class="breadcrumb">
+            <a href="home.html">หน้าแรก</a>
+            <span aria-hidden="true">/</span>
+            <span class="breadcrumb-current">รายการจอง</span>
+        </div>
+
+        <section class="page-heading">
+            <h1>รายการจอง</h1>
+            <p>
+                ตรวจสอบคำขอเช่าชุดจากลูกค้า และพิจารณายืนยันหรือปฏิเสธ
+                ก่อนจัดเตรียมชุดสำหรับการเช่า
+            </p>
+        </section>
+
+        <!-- สรุปจำนวนรายการเดิม -->
+        <section class="summary-grid" aria-label="สรุปรายการจอง">
+            <article class="summary-card">
+                <div class="summary-icon" aria-hidden="true">▤</div>
+                <div>
+                    <div class="summary-label">คำขอจองทั้งหมด</div>
+                    <div class="summary-value" id="totalBookings">—</div>
+                </div>
+            </article>
+
+            <article class="summary-card">
+                <div class="summary-icon" aria-hidden="true">◷</div>
+                <div>
+                    <div class="summary-label">รอร้านตรวจสอบ</div>
+                    <div class="summary-value" id="pendingBookings">—</div>
+                </div>
+            </article>
+
+            <article class="summary-card">
+                <div class="summary-icon" aria-hidden="true">✓</div>
+                <div>
+                    <div class="summary-label">ยืนยันแล้ว</div>
+                    <div class="summary-value" id="confirmedBookings">—</div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ตารางรายการจอง -->
+        <section class="content-card">
+            <div class="card-top">
+                <div>
+                    <h2>คำขอเช่าชุดทั้งหมด</h2>
+                    <p>
+                        ค้นหารายการจองและกรองตามสถานะ
+                        เพื่อตรวจสอบคำขอเช่าชุดได้สะดวกขึ้น
+                    </p>
+                </div>
+
+                <span class="card-label" id="bookingResultCount">รายการจอง</span>
+            </div>
+
+            <!-- ส่วนที่เพิ่ม: ค้นหาและกรองสถานะ -->
+            <div class="booking-filter">
+                <div class="booking-search">
+                    <label for="bookingSearch">ค้นหารายการจอง</label>
+                    <input
+                        type="search"
+                        id="bookingSearch"
+                        placeholder="ค้นหาชื่อลูกค้า หรือชื่อชุดคอสเพลย์"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="booking-status-filter">
+                    <label for="bookingStatusFilter">กรองตามสถานะ</label>
+                    <select id="bookingStatusFilter">
+                        <option value="all">ทุกสถานะ</option>
+                        <option value="pending">รอร้านตรวจสอบ</option>
+                        <option value="confirmed">ยืนยันแล้ว</option>
+                        <option value="rejected">ปฏิเสธ</option>
+                        <option value="return_requested">รอรับคืน</option>
+                        <option value="returned">คืนชุดแล้ว</option>
+                    </select>
+                </div>
+
+                <button type="button" id="resetBookingFilter">ล้างตัวกรอง</button>
+            </div>
+
+            <div class="table-scroll">
+                <!-- คงชื่อคลาสเดิมไว้ให้ js/shop-bookings.js ใช้งาน -->
+                <div class="booking-table">
+                    <div class="booking-table-row booking-table-header">
+                        <div>ลูกค้า</div>
+                        <div>ชุดคอสเพลย์</div>
+                        <div>วันเช่า</div>
+                        <div>วันคืน</div>
+                        <div>สถานะ</div>
+                        <div>จัดการ</div>
+                    </div>
+
+                    <div class="booking-empty-state">
+                        <div class="empty-icon" aria-hidden="true">▤</div>
+                        <h3>ยังไม่มีรายการจอง</h3>
+                        <p>
+                            เมื่อมีคำขอเช่าชุดจากลูกค้า
+                            รายการจะแสดงในส่วนนี้
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        CosplayHub · จัดการคำขอเช่าชุดของร้าน
+    </footer>
+
+    <!-- JavaScript เดิมสำหรับจัดการรายการจอง -->
+    <script src="js/shop-bookings.js"></script>
+
+    <!-- ส่วนที่เพิ่ม: ค้นหาและกรองรายการจอง โดยไม่แก้ข้อมูลใน LocalStorage -->
+    <script>
+        (function setupBookingFilters() {
+            const searchInput = document.getElementById("bookingSearch");
+            const statusFilter = document.getElementById("bookingStatusFilter");
+            const resetButton = document.getElementById("resetBookingFilter");
+            const table = document.querySelector(".booking-table");
+            const resultCount = document.getElementById("bookingResultCount");
+
+            if (!searchInput || !statusFilter || !resetButton || !table) {
+                return;
+            }
+
+            const countMessage = document.createElement("div");
+            countMessage.className = "booking-filter-count";
+            countMessage.setAttribute("aria-live", "polite");
+
+            const tableScroll = table.parentElement;
+            tableScroll.parentElement.insertBefore(countMessage, tableScroll);
+
+            const noResults = document.createElement("div");
+            noResults.className = "booking-no-results";
+            noResults.textContent = "ไม่พบรายการจองที่ตรงกับการค้นหา";
+            tableScroll.parentElement.appendChild(noResults);
+
+            function filterBookings() {
+                const keyword = searchInput.value.trim().toLocaleLowerCase("th");
+                const selectedStatus = statusFilter.value;
+
+                const rows = Array.from(
+                    table.querySelectorAll(".booking-data-row")
+                );
+
+                let visibleCount = 0;
+
+                rows.forEach(row => {
+                    const rowText = row.textContent.toLocaleLowerCase("th");
+                    const badge = row.querySelector(".booking-status-badge");
+
+                    let rowStatus = "";
+
+                    if (badge) {
+                        const statusClasses = [
+                            "pending",
+                            "confirmed",
+                            "rejected",
+                            "return_requested",
+                            "returned"
+                        ];
+
+                        rowStatus = statusClasses.find(status =>
+                            badge.classList.contains(status)
+                        ) || "";
+                    }
+
+                    const matchesKeyword =
+                        !keyword || rowText.includes(keyword);
+
+                    const matchesStatus =
+                        selectedStatus === "all" ||
+                        rowStatus === selectedStatus;
+
+                    const visible = matchesKeyword && matchesStatus;
+
+                    row.style.display = visible ? "" : "none";
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+                });
+
+                countMessage.textContent =
+                    "แสดง " + visibleCount + " รายการ จากทั้งหมด " +
+                    rows.length + " รายการ";
+
+                if (resultCount) {
+                    resultCount.textContent = visibleCount + " รายการ";
+                }
+
+                noResults.style.display =
+                    rows.length > 0 && visibleCount === 0 ? "block" : "none";
+            }
+
+            searchInput.addEventListener("input", filterBookings);
+            statusFilter.addEventListener("change", filterBookings);
+
+            resetButton.addEventListener("click", function () {
+                searchInput.value = "";
+                statusFilter.value = "all";
+                filterBookings();
+            });
+
+            // ติดตามการเพิ่มหรือลบแถวโดยสคริปต์เดิม
+            const observer = new MutationObserver(filterBookings);
+
+            observer.observe(table, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+
+            filterBookings();
+        })();
+    </script>
+
+    <!-- อัปเดตตัวเลขสรุปจาก LocalStorage: คงการทำงานเดิม -->
+    <script>
+        (function updateBookingSummary() {
+            const BOOKING_KEY = "cosplayHubBookings";
+            let storedBookings = [];
+
+            try {
+                const data = JSON.parse(
+                    localStorage.getItem(BOOKING_KEY) || "[]"
+                );
+
+                storedBookings = Array.isArray(data) ? data : [];
+            } catch (error) {
+                console.error("อ่านข้อมูลสรุปรายการจองไม่สำเร็จ", error);
+            }
+
+            const totalElement = document.getElementById("totalBookings");
+            const pendingElement = document.getElementById("pendingBookings");
+            const confirmedElement = document.getElementById("confirmedBookings");
+
+            if (totalElement) {
+                totalElement.textContent = storedBookings.length;
+            }
+
+            if (pendingElement) {
+                pendingElement.textContent = storedBookings.filter(
+                    booking => !booking.status || booking.status === "pending"
+                ).length;
+            }
+
+            if (confirmedElement) {
+                confirmedElement.textContent = storedBookings.filter(
+                    booking => booking.status === "confirmed"
+                ).length;
+            }
+        })();
+    </script>
+</body>
+</html>

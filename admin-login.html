@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+
+    <title>เข้าสู่ระบบผู้ดูแล | CosplayHub</title>
+
+    <style>
+        /* ========================================
+           1. สีหลักของแพลตฟอร์ม CosplayHub
+        ======================================== */
+        :root {
+            --primary: #7655d9;
+            --primary-dark: #6241c4;
+            --primary-light: #eee7ff;
+            --background: #f8f5ff;
+            --text: #292344;
+            --text-muted: #827b9c;
+            --border: #e8e0fa;
+            --white: #ffffff;
+            --danger: #d9485f;
+            --shadow: 0 20px 60px rgba(94, 65, 158, 0.12);
+        }
+
+        /* ========================================
+           2. ตั้งค่าพื้นฐาน
+        ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Leelawadee UI", "Tahoma", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 12% 15%,
+                    rgba(218, 199, 255, 0.38),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 85%,
+                    rgba(255, 221, 239, 0.42),
+                    transparent 32%
+                ),
+                var(--background);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* ========================================
+           3. โครงสร้างหน้าหลัก
+        ======================================== */
+        .admin-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 36px 20px;
+        }
+
+        /* ========================================
+           4. แบรนด์ CosplayHub
+        ======================================== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 26px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .brand-name {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            line-height: 1.3;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .brand-caption {
+            margin: 4px 0 0;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ========================================
+           5. การ์ดเข้าสู่ระบบ
+        ======================================== */
+        .admin-login-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 38px 36px 30px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(226, 215, 250, 0.9);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-login-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .admin-login-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border-radius: 18px;
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .admin-login-icon svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        .admin-login-title {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 750;
+            line-height: 1.5;
+        }
+
+        .admin-login-subtitle {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           6. ป้ายบอกบทบาทผู้ดูแล
+        ======================================== */
+        .admin-login-role {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            min-height: 43px;
+            margin-bottom: 26px;
+            padding: 10px 14px;
+            color: var(--primary-dark);
+            background: #f7f2ff;
+            border: 1px solid #e7dbff;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .admin-login-role svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+        }
+
+        /* ========================================
+           7. แบบฟอร์มและช่องกรอกข้อมูล
+        ======================================== */
+        .admin-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 19px;
+        }
+
+        .admin-login-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .admin-login-field label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #39324f;
+        }
+
+        .admin-login-field input {
+            display: block;
+            width: 100%;
+            min-height: 49px;
+            padding: 13px 15px;
+            color: var(--text);
+            background: #faf9ff;
+            border: 1px solid #e4def3;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .admin-login-field input::placeholder {
+            color: #aaa3bd;
+        }
+
+        .admin-login-field input:hover {
+            border-color: #cbbaf5;
+        }
+
+        .admin-login-field input:focus {
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(118, 85, 217, 0.10);
+        }
+
+        /* ========================================
+           8. ปุ่มเข้าสู่ระบบ
+        ======================================== */
+        .admin-login-button {
+            width: 100%;
+            min-height: 51px;
+            margin-top: 3px;
+            padding: 14px 18px;
+            color: var(--white);
+            background: linear-gradient(
+                110deg,
+                #9a7af0,
+                var(--primary)
+            );
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(118, 85, 217, 0.20);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .admin-login-button:hover {
+            background: linear-gradient(
+                110deg,
+                #8865e5,
+                var(--primary-dark)
+            );
+            box-shadow: 0 10px 24px rgba(118, 85, 217, 0.26);
+            transform: translateY(-1px);
+        }
+
+        .admin-login-button:active {
+            transform: translateY(0);
+        }
+
+        .admin-login-button:focus-visible,
+        .admin-login-back:focus-visible {
+            outline: 3px solid #cbbaf5;
+            outline-offset: 3px;
+        }
+
+        /* ========================================
+           9. ข้อความแจ้งเตือน
+        ======================================== */
+        .admin-login-message {
+            min-height: 20px;
+            margin: -7px 0 0;
+            color: var(--danger);
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        /* ========================================
+           10. เส้นแบ่งและปุ่มกลับ
+        ======================================== */
+        .admin-login-divider {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin: 25px 0 19px;
+            color: #aaa2bd;
+            font-size: 12px;
+        }
+
+        .admin-login-divider::before,
+        .admin-login-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee8f8;
+        }
+
+        .admin-login-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            min-height: 45px;
+            padding: 11px 14px;
+            color: var(--primary-dark);
+            background: #fbf9ff;
+            border: 1px solid #e6dcfb;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .admin-login-back:hover {
+            background: var(--primary-light);
+            border-color: #d4c4fa;
+        }
+
+        /* ========================================
+           11. ข้อความท้ายหน้า
+        ======================================== */
+        .admin-page-footer {
+            margin-top: 24px;
+            color: #9991ad;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           12. รองรับโทรศัพท์มือถือ
+        ======================================== */
+        @media (max-width: 520px) {
+            .admin-page {
+                justify-content: flex-start;
+                padding: 28px 16px 22px;
+            }
+
+            .brand {
+                margin-bottom: 22px;
+            }
+
+            .brand-logo {
+                width: 47px;
+                height: 47px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+            }
+
+            .admin-login-card {
+                max-width: 100%;
+                padding: 29px 22px 24px;
+                border-radius: 21px;
+            }
+
+            .admin-login-title {
+                font-size: 23px;
+            }
+
+            .admin-page-footer {
+                margin-top: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="admin-page">
+
+        <!-- แบรนด์ของแพลตฟอร์ม -->
+        <a class="brand" href="index.html" aria-label="CosplayHub">
+            <img
+                src="images/logo.png"
+                alt="CosplayHub"
+                class="brand-logo"
+            >
+
+            <div>
+                <h1 class="brand-name">
+                    Cosplay<span>Hub</span>
+                </h1>
+                <p class="brand-caption">
+                    พื้นที่ของคนรักคอสเพลย์
+                </p>
+            </div>
+        </a>
+
+        <!-- การ์ดเข้าสู่ระบบผู้ดูแล -->
+        <section
+            class="admin-login-card"
+            aria-labelledby="adminLoginTitle"
+        >
+
+            <!-- หัวข้อหน้า -->
+            <header class="admin-login-heading">
+                <div class="admin-login-icon" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M12 3v18"></path>
+                        <path d="M8 7h8"></path>
+                        <path d="M9 7l-2 5h10l-2-5"></path>
+                        <path d="M6 21h12"></path>
+                        <path d="M9 12l-2 6h10l-2-6"></path>
+                    </svg>
+                </div>
+
+                <h2 class="admin-login-title" id="adminLoginTitle">
+                    เข้าสู่ระบบผู้ดูแล
+                </h2>
+
+                <p class="admin-login-subtitle">
+                    เข้าสู่ระบบเพื่อจัดการข้อมูลพื้นฐานของ CosplayHub
+                </p>
+            </header>
+
+            <!-- แสดงบทบาทของบัญชี -->
+            <div class="admin-login-role">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M12 3l2.2 4.5L19 9l-4.8 1.5L12 15l-2.2-4.5L5 9l4.8-1.5L12 3z"></path>
+                    <path d="M19 15l1.2 2.3L22.5 18l-2.3.7L19 21l-1.2-2.3-2.3-.7 2.3-.7L19 15z"></path>
+                </svg>
+
+                <span>บัญชีสำหรับผู้ดูแลระบบ</span>
+            </div>
+
+            <!--
+                แบบฟอร์มนี้ใช้ ID เดิม
+                และเชื่อมต่อ js/admin-login.js ตัวเดิม
+            -->
+            <form id="adminLoginForm" class="admin-login-form">
+
+                <div class="admin-login-field">
+                    <label for="adminEmail">อีเมล</label>
+
+                    <input
+                        type="email"
+                        id="adminEmail"
+                        name="email"
+                        placeholder="กรอกอีเมลของคุณ"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="admin-login-field">
+                    <label for="adminPassword">รหัสผ่าน</label>
+
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        name="password"
+                        placeholder="กรอกรหัสผ่าน"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="admin-login-button">
+                    เข้าสู่ระบบ
+                </button>
+
+                <div
+                    id="adminLoginMessage"
+                    class="admin-login-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+            </form>
+
+            <!-- กลับไปหน้าเข้าสู่ระบบลูกค้า -->
+            <div class="admin-login-divider">
+                <span>หรือ</span>
+            </div>
+
+            <a href="index.html" class="admin-login-back">
+                <span aria-hidden="true">←</span>
+                <span>กลับเข้าสู่ระบบลูกค้า</span>
+            </a>
+
+        </section>
+
+        <!-- ข้อความท้ายหน้า -->
+        <footer class="admin-page-footer">
+            CosplayHub · แพลตฟอร์มสนับสนุนธุรกิจร้านเช่าชุดคอสเพลย์
+        </footer>
+
+    </main>
+
+    <!-- ใช้ไฟล์ระบบเข้าสู่ระบบเดิม -->
+    <script src="js/admin-login.js"></script>
+</body>
+</html>
+```

@@ -1,0 +1,612 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+    <title>รายการคืนชุด | CosplayHub</title>
+
+    <style>
+        /* =========================
+           1. สีและค่าพื้นฐาน
+        ========================= */
+        :root {
+            --primary: #7655d9;
+            --primary-dark: #6241c4;
+            --primary-light: #eee7ff;
+            --background: #f7f5fb;
+            --white: #ffffff;
+            --text: #302944;
+            --muted: #89819b;
+            --border: #ece5fa;
+            --green: #247747;
+            --green-bg: #e7f6ec;
+            --orange: #a96312;
+            --orange-bg: #fff3df;
+            --shadow: 0 8px 28px rgba(68, 43, 115, .06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans Thai", "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           2. ส่วนหัวเว็บไซต์
+        ========================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, .97);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: var(--primary-dark);
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .header-right,
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link,
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background .2s, color .2s;
+        }
+
+        .nav-link {
+            color: #655d76;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+        }
+
+        .logout-link {
+            color: var(--primary-dark);
+            border: 1px solid #e4d9f7;
+            background: var(--white);
+        }
+
+        .logout-link:hover {
+            background: var(--primary-light);
+        }
+
+        /* =========================
+           3. พื้นที่เนื้อหา
+        ========================= */
+        .page-container {
+            width: min(1180px, calc(100% - 48px));
+            margin: 30px auto 56px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-dark);
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 8px;
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           4. แถบคำอธิบาย
+        ========================= */
+        .notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            margin-bottom: 24px;
+            padding: 17px 19px;
+            border: 1px solid #e5dcfa;
+            border-radius: 13px;
+            background: #faf8ff;
+        }
+
+        .notice-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 19px;
+        }
+
+        .notice h2 {
+            margin: 0 0 4px;
+            font-size: 14px;
+        }
+
+        .notice p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           5. หัวข้อรายการ
+        ========================= */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .section-tag {
+            padding: 7px 12px;
+            border-radius: 20px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           6. พื้นที่แสดงการ์ดคืนชุด
+           ต้องคง id="returnList"
+        ========================= */
+        .rental-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rental-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .rental-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 23px 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .rental-number {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .rental-card-header h2 {
+            margin: 0;
+            color: var(--text);
+            font-size: 19px;
+            font-weight: 750;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .rental-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 750;
+            line-height: 1.6;
+        }
+
+        .rental-status.pending {
+            color: var(--orange);
+            background: var(--orange-bg);
+        }
+
+        /* =========================
+           7. ข้อมูลลูกค้าและวันที่
+        ========================= */
+        .rental-info {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            padding: 22px 25px;
+            border-bottom: 1px solid #f0ebf8;
+        }
+
+        .rental-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .rental-info-item span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .rental-info-item strong {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           8. รายการตรวจสอบตัวชุด วิก พร็อพ
+        ========================= */
+        .rental-items {
+            padding: 22px 25px;
+        }
+
+        .rental-items h3 {
+            margin: 0 0 15px;
+            font-size: 15px;
+            font-weight: 750;
+        }
+
+        .rental-item-row {
+            display: grid;
+            grid-template-columns: 150px minmax(0, 1fr);
+            gap: 15px;
+            padding: 12px 14px;
+            border-bottom: 1px solid #f0ebf8;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .rental-item-row:first-of-type {
+            border-top: 1px solid #f0ebf8;
+        }
+
+        .rental-item-row span:first-child {
+            color: var(--muted);
+        }
+
+        .rental-item-row span:last-child {
+            color: var(--text);
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           9. ส่วนท้ายการ์ดและปุ่มยืนยัน
+        ========================= */
+        .rental-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 19px 25px;
+            border-top: 1px solid var(--border);
+            background: #fdfcff;
+        }
+
+        .rental-note {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .rental-detail-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            min-height: 42px;
+            padding: 10px 19px;
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            color: var(--white);
+            background: var(--primary);
+            font-size: 13px;
+            font-weight: 750;
+            transition: background .2s, transform .2s;
+        }
+
+        .rental-detail-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .rental-detail-button:focus-visible {
+            outline: 3px solid #d8c9ff;
+            outline-offset: 3px;
+        }
+
+        /* =========================
+           10. ส่วนท้ายเว็บไซต์
+        ========================= */
+        .site-footer {
+            padding: 22px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* =========================
+           11. รองรับแท็บเล็ตและมือถือ
+        ========================= */
+        @media (max-width: 850px) {
+            .site-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .rental-info {
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .site-header {
+                padding: 12px 14px;
+            }
+
+            .header-right {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .main-nav {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+
+            .page-container {
+                width: calc(100% - 24px);
+                margin-top: 22px;
+            }
+
+            .page-heading h1 {
+                font-size: 23px;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .rental-card-header {
+                flex-direction: column;
+                padding: 19px;
+            }
+
+            .rental-info {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 19px;
+            }
+
+            .rental-items {
+                padding: 19px;
+            }
+
+            .rental-item-row {
+                grid-template-columns: 90px minmax(0, 1fr);
+                gap: 10px;
+                padding-right: 5px;
+                padding-left: 5px;
+            }
+
+            .rental-card-footer {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 18px 19px;
+            }
+
+            .rental-detail-button {
+                width: 100%;
+            }
+
+            .notice {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+         ส่วนหัวเว็บไซต์
+    ========================= -->
+    <header class="site-header">
+        <a class="brand" href="home.html" aria-label="CosplayHub หน้าแรก">
+            <img src="images/logo.png" alt="CosplayHub">
+            <span class="brand-name">Cosplay<span>Hub</span></span>
+        </a>
+
+        <div class="header-right">
+            <nav class="main-nav" aria-label="เมนูร้านค้า">
+                <a class="nav-link" href="shop-costumes.html">รายการสินค้า</a>
+                <a class="nav-link" href="shop-bookings.html">รายการจอง</a>
+                <a
+                    class="nav-link active"
+                    href="shop-returns.html"
+                    aria-current="page"
+                >รายการคืนชุด</a>
+            </nav>
+
+            <a class="logout-link" href="shop-login.html">
+                <span aria-hidden="true">↪</span>
+                ออกจากระบบ
+            </a>
+        </div>
+    </header>
+
+    <!-- =========================
+         เนื้อหาหลัก
+    ========================= -->
+    <main class="page-container">
+        <div class="breadcrumb">
+            <a href="home.html">หน้าแรก</a>
+            <span aria-hidden="true">/</span>
+            <span class="breadcrumb-current">รายการคืนชุด</span>
+        </div>
+
+        <section class="page-heading">
+            <h1>รายการคืนชุด</h1>
+            <p>
+                ตรวจสอบการคืนตัวชุด วิก และพร็อพ
+                ก่อนยืนยันว่าลูกค้าคืนชุดเรียบร้อยแล้ว
+            </p>
+        </section>
+
+        <section class="notice">
+            <div class="notice-icon" aria-hidden="true">✓</div>
+            <div>
+                <h2>ตรวจสอบรายการก่อนยืนยันการคืน</h2>
+                <p>
+                    ตรวจสอบตัวชุด วิก และพร็อพให้ครบถ้วน
+                    ก่อนกดยืนยันการคืนชุดในแต่ละรายการ
+                </p>
+            </div>
+        </section>
+
+        <section aria-labelledby="returnHeading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="returnHeading">รายการรอตรวจสอบ</h2>
+                    <p>รายการที่ลูกค้าแจ้งคืนและรอการตรวจสอบจากร้าน</p>
+                </div>
+
+                <span class="section-tag">รายการคืนชุด</span>
+            </div>
+
+            <!--
+                สำคัญ:
+                JavaScript เดิมค้นหา #returnList
+                และสร้างการ์ดรายการคืนภายในพื้นที่นี้
+            -->
+            <section class="rental-list" id="returnList" aria-live="polite">
+                <article class="rental-card">
+                    <div class="rental-card-header">
+                        <div>
+                            <span class="rental-number">รายการคืนชุด</span>
+                            <h2>กำลังโหลดรายการ...</h2>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        CosplayHub · ตรวจสอบและยืนยันการคืนชุด
+    </footer>
+
+    <!-- ใช้ JavaScript เดิมของระบบคืนชุด -->
+    <script src="js/shop-returns.js"></script>
+</body>
+</html>

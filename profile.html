@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6D4AFF">
+    <title>โปรไฟล์ | CosplayHub</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --primary: #6D4AFF;
+            --primary-dark: #5735D6;
+            --primary-light: #F0E9FF;
+            --pink: #E985C2;
+            --text: #302344;
+            --muted: #81758F;
+            --border: #EAE0FA;
+            --background: #FFF9FF;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            line-height: 1.7;
+        }
+
+        a, button, input {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #B8A1FF;
+            outline-offset: 3px;
+        }
+
+        .container {
+            width: min(1120px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        /* ส่วนหัวเว็บไซต์ */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(93, 59, 155, 0.06);
+            backdrop-filter: blur(14px);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 80px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            color: var(--primary);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .brand img {
+            display: block;
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .brand-name span {
+            color: var(--pink);
+        }
+
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            color: var(--primary);
+            font-family: inherit;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .main-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 9px 13px;
+            border-radius: 12px;
+            color: #625A73;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .main-nav a:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .main-nav a.active {
+            background: #EEE7FF;
+            color: var(--primary-dark);
+            font-weight: 750;
+        }
+
+        .main-nav a.nav-highlight {
+            margin-left: 4px;
+            background: linear-gradient(135deg, #6D4AFF, #A17BF0);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(109, 74, 255, 0.18);
+        }
+
+        .main-nav a.nav-highlight:hover {
+            background: linear-gradient(135deg, #5735D6, #8461DB);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* เนื้อหาหน้าโปรไฟล์ */
+        .profile-main {
+            width: min(1120px, calc(100% - 40px));
+            margin-inline: auto;
+            padding: 36px 0 56px;
+        }
+
+        .profile-heading {
+            margin-bottom: 24px;
+        }
+
+        .profile-heading h1 {
+            margin: 0 0 8px;
+            color: var(--text);
+            font-size: clamp(25px, 3vw, 33px);
+            font-weight: 750;
+            line-height: 1.4;
+        }
+
+        .profile-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .profile-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 12px 35px rgba(93, 59, 155, 0.08);
+        }
+
+        .profile-card-top {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 25px 26px;
+            background: linear-gradient(135deg, #F0E9FF, #FFF1FA);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 68px;
+            height: 68px;
+            flex-shrink: 0;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6D4AFF, #B49AF8);
+            color: #fff;
+            font-size: 27px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(109, 74, 255, 0.2);
+        }
+
+        .profile-user-heading {
+            min-width: 0;
+        }
+
+        .profile-user-heading h2 {
+            margin: 0 0 4px;
+            font-size: 20px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-user-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-role {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 11px;
+            border: 1px solid #EAE0FA;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        /* แบบฟอร์มข้อมูลบัญชี */
+        .profile-form {
+            padding: 26px;
+        }
+
+        .profile-form h3 {
+            margin: 0 0 20px;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .profile-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .profile-field {
+            min-width: 0;
+        }
+
+        .profile-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .profile-field input {
+            width: 100%;
+            min-height: 46px;
+            padding: 11px 13px;
+            border: 1px solid #E6DFF2;
+            border-radius: 12px;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .profile-field input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(109, 74, 255, 0.12);
+        }
+
+        .profile-field input[readonly] {
+            background: #F8F5FD;
+            color: #716A80;
+            cursor: not-allowed;
+        }
+
+        .profile-field input:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .profile-help {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* ปุ่มเดิมของหน้าโปรไฟล์ */
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #F0EAF7;
+        }
+
+        .profile-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 18px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 650;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .profile-button.primary {
+            background: linear-gradient(135deg, #6D4AFF, #9674ED);
+            color: #fff;
+            box-shadow: 0 5px 14px rgba(109, 74, 255, 0.2);
+        }
+
+        .profile-button.primary:hover {
+            background: linear-gradient(135deg, #5735D6, #805DE0);
+            box-shadow: 0 7px 17px rgba(109, 74, 255, 0.24);
+            transform: translateY(-1px);
+        }
+
+        .profile-button.secondary {
+            border-color: #E5D9FA;
+            background: #fff;
+            color: #716287;
+        }
+
+        .profile-button.secondary:hover {
+            border-color: #C9B6F4;
+            background: #F7F2FF;
+            color: var(--primary-dark);
+        }
+
+        .profile-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .profile-message {
+            margin: 16px 0 0;
+            color: #287847;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .profile-message.error {
+            color: #B63850;
+        }
+
+        @media (max-width: 850px) {
+            .header-inner {
+                position: relative;
+                flex-wrap: wrap;
+                min-height: 68px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+            }
+
+            .brand img {
+                width: 42px;
+                height: 42px;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .main-nav {
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 0;
+                right: 0;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+                padding: 10px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: #fff;
+                box-shadow: 0 18px 38px rgba(49, 35, 91, 0.12);
+            }
+
+            .main-nav.is-open {
+                display: flex;
+            }
+
+            .main-nav a {
+                justify-content: flex-start;
+                width: 100%;
+                min-height: 44px;
+            }
+
+            .main-nav a.nav-highlight {
+                justify-content: center;
+                margin: 4px 0 0;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container,
+            .profile-main {
+                width: calc(100% - 28px);
+            }
+
+            .brand img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .brand-name {
+                font-size: 20px;
+            }
+
+            .profile-main {
+                padding-top: 27px;
+                padding-bottom: 40px;
+            }
+
+            .profile-heading {
+                margin-bottom: 19px;
+            }
+
+            .profile-heading p {
+                font-size: 13px;
+            }
+
+            .profile-card {
+                border-radius: 16px;
+            }
+
+            .profile-card-top {
+                gap: 13px;
+                padding: 20px 16px;
+            }
+
+            .profile-avatar {
+                width: 58px;
+                height: 58px;
+                font-size: 23px;
+            }
+
+            .profile-user-heading h2 {
+                font-size: 18px;
+            }
+
+            .profile-form {
+                padding: 21px 16px;
+            }
+
+            .profile-fields {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .profile-field.full-width {
+                grid-column: auto;
+            }
+
+            .profile-actions {
+                flex-direction: column-reverse;
+            }
+
+            .profile-button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="home.html" class="brand" aria-label="CosplayHub หน้าแรก">
+                <img src="images/logo.png" alt="CosplayHub">
+                <span class="brand-name">Cosplay<span>Hub</span></span>
+            </a>
+
+            <button
+                type="button"
+                class="menu-toggle"
+                id="profileMenuButton"
+                aria-label="เปิดเมนู"
+                aria-expanded="false"
+                aria-controls="profileNav"
+            >☰</button>
+
+            <nav class="main-nav" id="profileNav" aria-label="เมนูหลัก">
+                <a href="home.html">หน้าแรก</a>
+                <a href="profile.html" class="active" aria-current="page">โปรไฟล์</a>
+                <a href="my-rentals.html">การเช่าของฉัน</a>
+                <a href="index.html" class="nav-highlight" id="logoutLink">ออกจากระบบ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-main">
+        <section class="profile-heading">
+            <h1>โปรไฟล์</h1>
+            <p>ตรวจสอบและแก้ไขข้อมูลบัญชีของคุณ</p>
+        </section>
+
+        <section class="profile-card">
+            <div class="profile-card-top">
+                <div class="profile-avatar" id="profileAvatar">ผ</div>
+
+                <div class="profile-user-heading">
+                    <h2 id="profileDisplayName">กำลังโหลดข้อมูล...</h2>
+                    <p id="profileDisplayEmail">กำลังโหลดอีเมล...</p>
+                    <span class="profile-role" id="profileRole">ลูกค้า</span>
+                </div>
+            </div>
+
+            <form class="profile-form" id="profileForm">
+                <h3>รายละเอียดบัญชี</h3>
+
+                <div class="profile-fields">
+                    <div class="profile-field">
+                        <label for="profileName">ชื่อผู้ใช้งาน</label>
+                        <input
+                            type="text"
+                            id="profileName"
+                            name="name"
+                            placeholder="กรอกชื่อผู้ใช้งาน"
+                            autocomplete="name"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profileEmail">อีเมล</label>
+                        <input
+                            type="email"
+                            id="profileEmail"
+                            name="email"
+                            placeholder="อีเมลบัญชี"
+                            readonly
+                        >
+                        <p class="profile-help">ใช้อีเมลของบัญชีที่เข้าสู่ระบบอยู่</p>
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profilePhone">เบอร์โทรศัพท์</label>
+                        <input
+                            type="tel"
+                            id="profilePhone"
+                            name="phone"
+                            placeholder="กรอกเบอร์โทรศัพท์"
+                            autocomplete="tel"
+                            maxlength="30"
+                        >
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profileAddress">ที่อยู่</label>
+                        <input
+                            type="text"
+                            id="profileAddress"
+                            name="address"
+                            placeholder="กรอกที่อยู่"
+                            autocomplete="street-address"
+                            maxlength="250"
+                        >
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button
+                        type="button"
+                        class="profile-button secondary"
+                        id="resetProfileButton"
+                    >คืนค่าข้อมูล</button>
+
+                    <button
+                        type="submit"
+                        class="profile-button primary"
+                        id="saveProfileButton"
+                    >บันทึกข้อมูล</button>
+                </div>
+
+                <p class="profile-message" id="profileMessage" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        /* เมนูมือถือ */
+        const menuButton = document.getElementById("profileMenuButton");
+        const profileNav = document.getElementById("profileNav");
+
+        menuButton.addEventListener("click", function () {
+            const isOpen = profileNav.classList.toggle("is-open");
+
+            menuButton.setAttribute("aria-expanded", String(isOpen));
+            menuButton.setAttribute(
+                "aria-label",
+                isOpen ? "ปิดเมนู" : "เปิดเมนู"
+            );
+            menuButton.textContent = isOpen ? "×" : "☰";
+        });
+
+        profileNav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                profileNav.classList.remove("is-open");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "เปิดเมนู");
+                menuButton.textContent = "☰";
+            });
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                profileNav.classList.remove("is-open");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "เปิดเมนู");
+                menuButton.textContent = "☰";
+            }
+        });
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 850) {
+                profileNav.classList.remove("is-open");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "เปิดเมนู");
+                menuButton.textContent = "☰";
+            }
+        });
+
+        document.addEventListener("click", function (event) {
+            if (
+                !event.target.closest(".header-inner") &&
+                menuButton.getAttribute("aria-expanded") === "true"
+            ) {
+                profileNav.classList.remove("is-open");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "เปิดเมนู");
+                menuButton.textContent = "☰";
+            }
+        });
+
+        /* คีย์ข้อมูลเดิมของระบบ */
+        const USER_KEY = "cosplayHubCurrentUser";
+
+        const profileForm = document.getElementById("profileForm");
+        const profileName = document.getElementById("profileName");
+        const profileEmail = document.getElementById("profileEmail");
+        const profilePhone = document.getElementById("profilePhone");
+        const profileAddress = document.getElementById("profileAddress");
+        const profileDisplayName = document.getElementById("profileDisplayName");
+        const profileDisplayEmail = document.getElementById("profileDisplayEmail");
+        const profileAvatar = document.getElementById("profileAvatar");
+        const profileRole = document.getElementById("profileRole");
+        const profileMessage = document.getElementById("profileMessage");
+        const resetButton = document.getElementById("resetProfileButton");
+        const saveButton = document.getElementById("saveProfileButton");
+
+        function readCurrentUser() {
+            try {
+                const savedUser = localStorage.getItem(USER_KEY);
+
+                if (!savedUser) {
+                    return null;
+                }
+
+                const user = JSON.parse(savedUser);
+
+                if (!user || typeof user !== "object" || Array.isArray(user)) {
+                    return null;
+                }
+
+                return user;
+            } catch (error) {
+                console.error("อ่านข้อมูลผู้ใช้ไม่สำเร็จ:", error);
+                return null;
+            }
+        }
+
+        function getUserName(user) {
+            if (!user) {
+                return "";
+            }
+
+            const possibleNames = [
+                user.fullname,
+                user.name,
+                user.fullName,
+                user.username,
+                user.displayName
+            ];
+
+            const foundName = possibleNames.find(function (value) {
+                return typeof value === "string" && value.trim() !== "";
+            });
+
+            return foundName ? foundName.trim() : "";
+        }
+
+        function getRoleText(user) {
+            const role = String(
+                user?.role || user?.userType || "customer"
+            ).toLowerCase();
+
+            if (role === "admin" || role === "administrator") {
+                return "ผู้ดูแลระบบ";
+            }
+
+            if (role === "shop" || role === "owner" || role === "ร้านค้า") {
+                return "ร้านค้า";
+            }
+
+            return "ลูกค้า";
+        }
+
+        function renderUser(user) {
+            const name = getUserName(user) || "ยังไม่ได้ระบุชื่อ";
+            const email = typeof user?.email === "string" ? user.email : "";
+            const phone = typeof user?.phone === "string" ? user.phone : "";
+            const address = typeof user?.address === "string"
+                ? user.address
+                : "";
+
+            profileName.value = getUserName(user);
+            profileEmail.value = email;
+            profilePhone.value = phone;
+            profileAddress.value = address;
+
+            profileDisplayName.textContent = name;
+            profileDisplayEmail.textContent = email || "ยังไม่ได้ระบุอีเมล";
+            profileAvatar.textContent = getUserName(user).charAt(0) || "ผ";
+            profileRole.textContent = getRoleText(user);
+        }
+
+        function showProfileMessage(message, isError) {
+            profileMessage.textContent = message;
+            profileMessage.classList.toggle("error", Boolean(isError));
+        }
+
+        function setFormEnabled(enabled) {
+            profileName.disabled = !enabled;
+            profilePhone.disabled = !enabled;
+            profileAddress.disabled = !enabled;
+            resetButton.disabled = !enabled;
+            saveButton.disabled = !enabled;
+        }
+
+        function loadProfile() {
+            const user = readCurrentUser();
+
+            if (!user) {
+                renderUser(null);
+                setFormEnabled(false);
+                showProfileMessage(
+                    "ไม่พบข้อมูลบัญชี กรุณาเข้าสู่ระบบก่อนใช้งานหน้านี้",
+                    true
+                );
+                return;
+            }
+
+            renderUser(user);
+            setFormEnabled(true);
+            showProfileMessage("", false);
+        }
+
+        /* บันทึกข้อมูลส่วนตัว โดยคงคีย์เดิม */
+        profileForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const currentUser = readCurrentUser();
+
+            if (!currentUser) {
+                setFormEnabled(false);
+                showProfileMessage(
+                    "ไม่พบข้อมูลบัญชี กรุณาเข้าสู่ระบบใหม่",
+                    true
+                );
+                return;
+            }
+
+            const name = profileName.value.trim();
+            const phone = profilePhone.value.trim();
+            const address = profileAddress.value.trim();
+
+            if (!name) {
+                showProfileMessage("กรุณากรอกชื่อผู้ใช้งาน", true);
+                profileName.focus();
+                return;
+            }
+
+            try {
+                const updatedUser = {
+                    ...currentUser,
+                    fullname: name,
+                    name: name,
+                    phone: phone,
+                    address: address
+                };
+
+                localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
+
+                renderUser(updatedUser);
+                showProfileMessage("บันทึกข้อมูลส่วนตัวเรียบร้อยแล้ว", false);
+            } catch (error) {
+                console.error("บันทึกข้อมูลไม่สำเร็จ:", error);
+                showProfileMessage(
+                    "บันทึกข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง",
+                    true
+                );
+            }
+        });
+
+        /* คืนค่าข้อมูลที่บันทึกไว้ล่าสุด */
+        resetButton.addEventListener("click", function () {
+            const currentUser = readCurrentUser();
+
+            if (!currentUser) {
+                showProfileMessage(
+                    "ไม่พบข้อมูลบัญชี กรุณาเข้าสู่ระบบใหม่",
+                    true
+                );
+                return;
+            }
+
+            renderUser(currentUser);
+            showProfileMessage("แสดงข้อมูลที่บันทึกไว้ล่าสุดแล้ว", false);
+        });
+
+        loadProfile();
+    </script>
+</body>
+</html>
+```

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>เข้าสู่ระบบร้าน | CosplayHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .shop-login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+            background: #faf8ff;
+        }
+
+        .shop-login-card {
+            width: 100%;
+            max-width: 430px;
+            padding: 36px;
+            box-sizing: border-box;
+
+            background: #ffffff;
+            border: 1px solid #eee8f6;
+            border-radius: 18px;
+
+            box-shadow: 0 15px 40px rgba(72, 46, 120, 0.08);
+        }
+
+        .shop-login-brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .shop-login-brand img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .shop-login-brand h1 {
+            margin: 0 0 6px;
+            color: #211735;
+            font-size: 26px;
+        }
+
+        .shop-login-brand p {
+            margin: 0;
+            color: #746c80;
+            font-size: 14px;
+        }
+
+        .shop-login-header {
+            margin-bottom: 22px;
+        }
+
+        .shop-login-header h2 {
+            margin: 0 0 7px;
+            color: #2b2140;
+            font-size: 21px;
+        }
+
+        .shop-login-header p {
+            margin: 0;
+            color: #746c80;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .shop-login-form label {
+            display: block;
+            margin-bottom: 7px;
+            color: #342a48;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .shop-login-form input {
+            width: 100%;
+            height: 46px;
+            margin-bottom: 18px;
+            padding: 0 14px;
+            box-sizing: border-box;
+
+            border: 1px solid #ddd6e8;
+            border-radius: 9px;
+
+            color: #342a48;
+            background: #ffffff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .shop-login-form input:focus {
+            border-color: #6241d7;
+        }
+
+        .shop-login-button {
+            width: 100%;
+            height: 46px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #6241d7;
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .shop-login-button:hover {
+            background: #5132c0;
+        }
+
+        .shop-login-message {
+            min-height: 22px;
+            margin: 14px 0 0;
+
+            color: #d14343;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .shop-login-back {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .shop-login-back a {
+            color: #6241d7;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .shop-login-back a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .shop-login-page {
+                padding: 16px;
+            }
+
+            .shop-login-card {
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="shop-login-page">
+
+        <section class="shop-login-card">
+
+            <div class="shop-login-brand">
+                <img
+                    src="images/logo.png"
+                    alt="CosplayHub"
+                >
+
+                <h1>CosplayHub</h1>
+
+                <p>ระบบจัดการร้านเช่าชุดคอสเพลย์</p>
+            </div>
+
+            <div class="shop-login-header">
+                <h2>เข้าสู่ระบบร้าน</h2>
+
+                <p>
+                    เข้าสู่ระบบเพื่อจัดการชุด ตรวจสอบรายการจอง
+                    และตรวจสอบการคืนชุด
+                </p>
+            </div>
+
+            <form id="shopLoginForm" class="shop-login-form">
+
+                <label for="shopEmail">
+                    อีเมล
+                </label>
+
+                <input
+                    type="email"
+                    id="shopEmail"
+                    placeholder="กรอกอีเมลร้าน"
+                    required
+                >
+
+                <label for="shopPassword">
+                    รหัสผ่าน
+                </label>
+
+                <input
+                    type="password"
+                    id="shopPassword"
+                    placeholder="กรอกรหัสผ่าน"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="shop-login-button"
+                >
+                    เข้าสู่ระบบร้าน
+                </button>
+
+                <p
+                    id="shopLoginMessage"
+                    class="shop-login-message"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+            <div class="shop-login-back">
+                <a href="index.html">
+                    ← กลับเข้าสู่ระบบลูกค้า
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/shop-login.js"></script>
+
+</body>
+</html>

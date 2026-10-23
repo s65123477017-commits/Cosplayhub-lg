@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดชุด | CosplayHub</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ========================================
+           COSPLAYHUB - COSTUME DETAIL
+        ======================================== */
+
+        .costume-detail-main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 28px 60px;
+            box-sizing: border-box;
+        }
+
+        .detail-back { margin-bottom: 20px; }
+
+        .detail-back a {
+            color: #6241d7;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .costume-detail-card {
+            display: grid;
+            grid-template-columns: 420px minmax(0, 1fr);
+            gap: 36px;
+            padding: 28px;
+            background: #fff;
+            border: 1px solid #eee8f6;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(72, 46, 120, 0.06);
+            box-sizing: border-box;
+        }
+
+        .detail-image-box {
+            width: 100%;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f5f1fc;
+            border-radius: 14px;
+        }
+
+        .detail-image-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .detail-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            color: #9b91a8;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .detail-placeholder-icon { font-size: 38px; }
+        .detail-content { min-width: 0; }
+
+        .detail-title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #6241d7;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .detail-title-row h1 {
+            margin: 0;
+            color: #211735;
+            font-size: 30px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-status {
+            flex-shrink: 0;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .detail-status.available {
+            background: #eaf8ef;
+            color: #287847;
+        }
+
+        .detail-status.unavailable {
+            background: #f8eaea;
+            color: #b35a5a;
+        }
+
+        .detail-description {
+            margin: 0 0 24px;
+            color: #746c80;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-section {
+            padding: 20px 0;
+            border-top: 1px solid #eee8f6;
+        }
+
+        .detail-section h2 {
+            margin: 0 0 14px;
+            color: #2b2140;
+            font-size: 17px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 11px 0;
+            border-bottom: 1px solid #f1edf7;
+            font-size: 13px;
+        }
+
+        .detail-item:last-child { border-bottom: none; }
+
+        .detail-item strong {
+            color: #33294a;
+            flex-shrink: 0;
+        }
+
+        .detail-item span {
+            color: #746c80;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-note {
+            margin: 0 0 12px;
+            color: #746c80;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .additional-cost {
+            padding: 12px 14px;
+            background: #f8f5fd;
+            border-radius: 8px;
+            color: #6241d7;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .rental-date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .date-field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #33294a;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .date-field input {
+            width: 100%;
+            height: 42px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            border: 1px solid #ddd6ef;
+            border-radius: 8px;
+            background: #fff;
+            color: #2a2340;
+            font-size: 13px;
+        }
+
+        .date-field input:focus {
+            outline: 2px solid rgba(98, 65, 215, 0.15);
+            border-color: #6241d7;
+        }
+
+        .detail-booking { padding-top: 20px; }
+
+        .detail-booking p {
+            margin: 0 0 12px;
+            color: #746c80;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .booking-button {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            background: #6241d7;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .booking-button:hover { background: #5132c0; }
+
+        .booking-button:disabled {
+            background: #ddd9e5;
+            color: #81798b;
+            cursor: not-allowed;
+        }
+
+        .costume-not-found {
+            padding: 60px 20px;
+            background: #fff;
+            border: 1px solid #eee8f6;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .costume-not-found h1 {
+            margin: 0 0 12px;
+            color: #2b2140;
+            font-size: 22px;
+        }
+
+        .costume-not-found p {
+            margin: 0 0 22px;
+            color: #746c80;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .back-costumes-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 18px;
+            border-radius: 8px;
+            background: #6241d7;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .costume-detail-card { grid-template-columns: 1fr; }
+            .detail-image-box { height: 420px; }
+        }
+
+        @media (max-width: 600px) {
+            .costume-detail-main { padding: 24px 16px 40px; }
+            .costume-detail-card { padding: 18px; gap: 24px; }
+            .detail-image-box { height: 340px; }
+            .detail-title-row { flex-direction: column; }
+            .detail-title-row h1 { font-size: 25px; }
+            .rental-date-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ส่วนหัวเว็บไซต์ -->
+    <header class="home-header">
+        <a href="home.html" class="home-logo">
+            <img src="images/logo.png" alt="CosplayHub">
+            <span>CosplayHub</span>
+        </a>
+
+        <nav class="home-nav">
+            <a href="home.html">หน้าแรก</a>
+            <a href="costumes.html" class="active">ชุดคอสเพลย์</a>
+            <a href="my-rentals.html">การเช่าของฉัน</a>
+            <a href="profile.html">ข้อมูลส่วนตัว</a>
+        </nav>
+
+        <a href="index.html" class="logout-link">ออกจากระบบ</a>
+    </header>
+
+    <main class="costume-detail-main">
+        <div class="detail-back">
+            <a href="costumes.html">← กลับไปยังรายการชุด</a>
+        </div>
+
+        <div id="detailContainer">
+            <section class="costume-not-found">
+                <h1>กำลังโหลดข้อมูลชุด...</h1>
+                <p>กรุณารอสักครู่</p>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        /* ========================================
+           1. ตั้งค่าข้อมูลและอ่าน LocalStorage
+        ======================================== */
+
+        const detailContainer = document.getElementById("detailContainer");
+        const urlParams = new URLSearchParams(window.location.search);
+        const costumeId = urlParams.get("id");
+
+        const BOOKING_KEY = "cosplayHubBookings";
+        const COSTUME_KEY = "cosplayHubCostumes";
+        const USER_KEY = "cosplayHubCurrentUser";
+
+        function readArray(key) {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(key) || "[]");
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.error("อ่านข้อมูลไม่สำเร็จ:", key, error);
+                return [];
+            }
+        }
+
+        function readObject(key) {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(key) || "null");
+                return parsed && typeof parsed === "object" &&
+                    !Array.isArray(parsed) ? parsed : null;
+            } catch (error) {
+                console.error("อ่านข้อมูลผู้ใช้ไม่สำเร็จ:", error);
+                return null;
+            }
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, function (char) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[char];
+            });
+        }
+
+        function getLocalDateString(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        function getWigText(wig) {
+            const labels = {
+                included: "มีวิกในชุด",
+                external: "วิกจากภายนอก",
+                none: "ไม่มีวิก"
+            };
+            return labels[wig] || "ไม่มีข้อมูล";
+        }
+
+        function getPropText(prop) {
+            const labels = {
+                included: "มีพร็อพในชุด",
+                customer: "ลูกค้าจัดหาเอง",
+                additional: "ร้านจัดหาเพิ่มเติม",
+                none: "ไม่มีพร็อพ"
+            };
+            return labels[prop] || "ไม่มีข้อมูล";
+        }
+
+        /* ========================================
+           2. แสดงรูปชุด
+        ======================================== */
+
+        function getValidImageSource(image) {
+            if (typeof image !== "string" || !image.trim()) return "";
+
+            const value = image.trim();
+
+            if (/^data:image\/(?:png|jpe?g|webp|gif);base64,/i.test(value)) {
+                return value;
+            }
+
+            if (/^https?:\/\//i.test(value)) return value;
+
+            if (
+                /^(?:\.\/|\/)?(?:images|uploads)\//i.test(value) &&
+                /\.(?:png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value)
+            ) {
+                return value;
+            }
+
+            return "";
+        }
+
+        function showImagePlaceholder(imageBox, message) {
+            const placeholder = document.createElement("div");
+            placeholder.className = "detail-image-placeholder";
+
+            const icon = document.createElement("span");
+            icon.className = "detail-placeholder-icon";
+            icon.setAttribute("aria-hidden", "true");
+            icon.textContent = "♡";
+
+            const text = document.createElement("span");
+            text.textContent = message;
+
+            placeholder.append(icon, text);
+            imageBox.replaceChildren(placeholder);
+        }
+
+        function showCostumeImage(costume) {
+            const imageBox = document.getElementById("detailImageBox");
+            if (!imageBox) return;
+
+            const source = getValidImageSource(costume.image);
+
+            if (!source) {
+                showImagePlaceholder(imageBox, "ยังไม่มีรูปชุด");
+                return;
+            }
+
+            const image = document.createElement("img");
+            image.src = source;
+            image.alt = costume.name || "ชุดคอสเพลย์";
+
+            image.addEventListener("error", function () {
+                showImagePlaceholder(imageBox, "ไม่สามารถแสดงรูปชุดได้");
+            }, { once: true });
+
+            imageBox.replaceChildren(image);
+        }
+
+        /* ========================================
+           3. โหลดข้อมูลชุด
+        ======================================== */
+
+        function showNotFound(message) {
+            detailContainer.innerHTML = `
+                <section class="costume-not-found">
+                    <h1>ไม่พบข้อมูลชุด</h1>
+                    <p>${escapeHTML(message)}</p>
+                    <a href="costumes.html" class="back-costumes-button">
+                        กลับไปยังรายการชุด
+                    </a>
+                </section>
+            `;
+        }
+
+        const costumes = readArray(COSTUME_KEY);
+
+        if (!costumeId) {
+            showNotFound("ไม่พบรหัสชุดในลิงก์ กรุณากลับไปยังรายการชุดแล้วเลือกชุดอีกครั้ง");
+        } else {
+            const costume = costumes.find(item =>
+                item.id !== undefined &&
+                item.id !== null &&
+                String(item.id) === String(costumeId)
+            );
+
+            if (!costume) {
+                showNotFound("ไม่พบชุดที่ตรงกับรหัสนี้ กรุณากลับไปยังรายการชุดแล้วเลือกชุดอีกครั้ง");
+            } else {
+                renderCostumeDetail(costume);
+            }
+        }
+
+        /* ========================================
+           4. แสดงรายละเอียดชุด
+        ======================================== */
+
+        function renderCostumeDetail(costume) {
+            const isAvailable = costume.status === "available";
+            const statusText = isAvailable ? "ว่าง" : "ไม่ว่าง";
+            const statusClass = isAvailable ? "available" : "unavailable";
+
+            const additionalCost = Number(costume.additionalCost || 0);
+            const additionalCostText = additionalCost > 0
+                ? additionalCost.toLocaleString("th-TH") + " บาท"
+                : "ไม่มีค่าใช้จ่ายเพิ่มเติม";
+
+            detailContainer.innerHTML = `
+                <section class="costume-detail-card">
+                    <div class="detail-image">
+                        <div class="detail-image-box" id="detailImageBox"></div>
+                    </div>
+
+                    <div class="detail-content">
+                        <div class="detail-title-row">
+                            <div>
+                                <span class="detail-label">รายละเอียดชุด</span>
+                                <h1>${escapeHTML(costume.name || "ไม่ระบุชื่อชุด")}</h1>
+                            </div>
+                            <span class="detail-status ${statusClass}">${statusText}</span>
+                        </div>
+
+                        <p class="detail-description">
+                            ${escapeHTML(costume.description || "ไม่มีรายละเอียดชุด")}
+                        </p>
+
+                        <section class="detail-section">
+                            <h2>รายละเอียดชุด</h2>
+                            <div class="detail-item">
+                                <strong>ตัวชุด</strong>
+                                <span>${escapeHTML(costume.costumeSet || "ไม่มีข้อมูล")}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>วิก</strong>
+                                <span>${escapeHTML(getWigText(costume.wig))}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>พร็อพ</strong>
+                                <span>${escapeHTML(getPropText(costume.prop))}</span>
+                            </div>
+                        </section>
+
+                        <section class="detail-section">
+                            <h2>ค่าใช้จ่ายเพิ่มเติม</h2>
+                            <p class="detail-note">ค่าใช้จ่ายเพิ่มเติมตามข้อมูลที่ร้านกำหนด</p>
+                            <div class="additional-cost">${escapeHTML(additionalCostText)}</div>
+                        </section>
+
+                        <section class="detail-section">
+                            <h2>เลือกวันเช่า</h2>
+                            <div class="rental-date-row">
+                                <div class="date-field">
+                                    <label for="rentDate">วันเช่า</label>
+                                    <input type="date" id="rentDate" ${!isAvailable ? "disabled" : ""}>
+                                </div>
+                                <div class="date-field">
+                                    <label for="returnDate">วันคืน</label>
+                                    <input type="date" id="returnDate" ${!isAvailable ? "disabled" : ""}>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="detail-booking">
+                            ${
+                                isAvailable
+                                    ? `<p>คำขอเช่าจะรอให้ร้านตรวจสอบก่อนยืนยัน</p>
+                                       <button type="button" class="booking-button" id="bookingButton">
+                                           ส่งคำขอจอง
+                                       </button>`
+                                    : `<p>ชุดนี้ไม่พร้อมให้เช่าในขณะนี้</p>
+                                       <button type="button" class="booking-button" disabled>
+                                           ไม่สามารถจองชุดนี้ได้
+                                       </button>`
+                            }
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            showCostumeImage(costume);
+            setupDateInputs();
+            setupBooking(costume);
+        }
+
+        /* ========================================
+           5. ตรวจสอบวันที่
+        ======================================== */
+
+        function setupDateInputs() {
+            const rentDate = document.getElementById("rentDate");
+            const returnDate = document.getElementById("returnDate");
+
+            if (!rentDate || !returnDate) return;
+
+            rentDate.min = getLocalDateString();
+            returnDate.min = getLocalDateString();
+
+            rentDate.addEventListener("change", function () {
+                returnDate.min = rentDate.value || getLocalDateString();
+
+                if (returnDate.value && returnDate.value < rentDate.value) {
+                    returnDate.value = "";
+                }
+            });
+        }
+
+        /* ========================================
+           6. ตรวจสอบข้อมูลวันที่และคำขอซ้ำ
+        ======================================== */
+
+        function isValidDateRange(rentDate, returnDate) {
+            const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+            if (!datePattern.test(rentDate) || !datePattern.test(returnDate)) {
+                return false;
+            }
+
+            const start = new Date(rentDate + "T00:00:00");
+            const end = new Date(returnDate + "T00:00:00");
+
+            return !Number.isNaN(start.getTime()) &&
+                !Number.isNaN(end.getTime()) &&
+                rentDate >= getLocalDateString() &&
+                end >= start;
+        }
+
+        function hasDuplicateBooking(bookings, userEmail, currentCostumeId, rentDate, returnDate) {
+            const normalizedEmail = String(userEmail || "").trim().toLowerCase();
+
+            return bookings.some(function (item) {
+                const sameCustomer =
+                    String(item.customerEmail || "").trim().toLowerCase() === normalizedEmail;
+
+                const sameCostume =
+                    String(item.costumeId) === String(currentCostumeId);
+
+                const sameDates =
+                    item.rentDate === rentDate &&
+                    item.returnDate === returnDate;
+
+                // คำขอที่ปฏิเสธหรือคืนแล้วสามารถส่งคำขอใหม่ได้
+                const stillActive = [
+                    "pending",
+                    "confirmed",
+                    "return_requested"
+                ].includes(item.status);
+
+                return sameCustomer && sameCostume && sameDates && stillActive;
+            });
+        }
+
+        /* ========================================
+           7. ส่งคำขอเช่า
+           - ป้องกันการกดซ้ำ
+           - ตรวจข้อมูลชุดล่าสุด
+           - ป้องกันคำขอซ้ำ
+           - เก็บ shippingAddress เป็นสำเนา
+        ======================================== */
+
+        function setupBooking(costume) {
+            const bookingButton = document.getElementById("bookingButton");
+            if (!bookingButton) return;
+
+            let isSubmitting = false;
+
+            bookingButton.addEventListener("click", function () {
+                if (isSubmitting) return;
+
+                const rentDateInput = document.getElementById("rentDate");
+                const returnDateInput = document.getElementById("returnDate");
+
+                if (!rentDateInput || !returnDateInput) return;
+
+                const rentDate = rentDateInput.value;
+                const returnDate = returnDateInput.value;
+
+                if (!rentDate || !returnDate) {
+                    alert("กรุณาเลือกวันเช่าและวันคืน");
+                    return;
+                }
+
+                if (!isValidDateRange(rentDate, returnDate)) {
+                    alert("วันคืนต้องไม่ก่อนวันเช่า และวันเช่าต้องไม่เป็นวันย้อนหลัง");
+                    return;
+                }
+
+                const currentUser = readObject(USER_KEY);
+
+                if (!currentUser || !currentUser.email) {
+                    alert("กรุณาเข้าสู่ระบบก่อนส่งคำขอเช่า");
+                    window.location.href = "index.html";
+                    return;
+                }
+
+                const shippingAddress =
+                    typeof currentUser.address === "string"
+                        ? currentUser.address.trim()
+                        : "";
+
+                if (!shippingAddress) {
+                    alert("กรุณาบันทึกที่อยู่สำหรับจัดส่งชุดในหน้าโปรไฟล์ก่อนส่งคำขอเช่า");
+                    window.location.href = "profile.html";
+                    return;
+                }
+
+                /*
+                 * อ่านข้อมูลชุดล่าสุดอีกครั้งก่อนรับคำขอ
+                 * ป้องกันการส่งคำขอจากหน้าเก่าที่เปิดค้างไว้
+                 */
+                const latestCostumes = readArray(COSTUME_KEY);
+                const latestCostume = latestCostumes.find(item =>
+                    String(item.id) === String(costume.id)
+                );
+
+                if (!latestCostume) {
+                    alert("ไม่พบข้อมูลชุดนี้แล้ว กรุณากลับไปยังรายการชุด");
+                    return;
+                }
+
+                if (latestCostume.status !== "available") {
+                    alert("ชุดนี้ไม่พร้อมให้เช่าแล้ว กรุณากลับไปตรวจสอบรายการชุดอีกครั้ง");
+                    window.location.reload();
+                    return;
+                }
+
+                let bookings;
+
+                try {
+                    const raw = localStorage.getItem(BOOKING_KEY);
+                    const parsed = raw ? JSON.parse(raw) : [];
+
+                    if (!Array.isArray(parsed)) {
+                        alert("ข้อมูลคำขอเช่ามีรูปแบบไม่ถูกต้อง");
+                        return;
+                    }
+
+                    bookings = parsed;
+                } catch (error) {
+                    console.error("อ่านข้อมูลคำขอเช่าไม่สำเร็จ:", error);
+                    alert("ไม่สามารถอ่านข้อมูลคำขอเช่าเดิมได้");
+                    return;
+                }
+
+                /*
+                 * ป้องกันคำขอซ้ำของลูกค้าคนเดิม
+                 * สำหรับชุดเดียวกันและช่วงวันเช่าเดียวกัน
+                 */
+                if (hasDuplicateBooking(
+                    bookings,
+                    currentUser.email,
+                    latestCostume.id,
+                    rentDate,
+                    returnDate
+                )) {
+                    alert(
+                        "พบคำขอจองชุดนี้ในช่วงวันดังกล่าวอยู่แล้ว\n\n" +
+                        "กรุณาไปที่หน้า “การเช่าของฉัน” เพื่อตรวจสอบสถานะคำขอเดิม"
+                    );
+                    return;
+                }
+
+                /*
+                 * ล็อกปุ่มระหว่างบันทึก เพื่อป้องกันการกดซ้ำ
+                 */
+                isSubmitting = true;
+                bookingButton.disabled = true;
+                bookingButton.textContent = "กำลังส่งคำขอ...";
+
+                /*
+                 * สร้างรหัสที่ไม่ซ้ำกับรายการเดิม
+                 */
+                let bookingId = Date.now();
+
+                while (bookings.some(item => String(item.id) === String(bookingId))) {
+                    bookingId += 1;
+                }
+
+                const booking = {
+                    id: bookingId,
+                    costumeId: latestCostume.id,
+                    costumeName: latestCostume.name || "",
+                    customerName:
+                        currentUser.fullname ||
+                        currentUser.fullName ||
+                        currentUser.name ||
+                        currentUser.username ||
+                        "",
+                    customerEmail: currentUser.email || "",
+                    customerPhone: currentUser.phone || "",
+                    shippingAddress: shippingAddress,
+                    rentDate: rentDate,
+                    returnDate: returnDate,
+                    status: "pending"
+                };
+
+                try {
+                    bookings.push(booking);
+
+                    localStorage.setItem(BOOKING_KEY, JSON.stringify(bookings));
+
+                    const savedBookings = JSON.parse(
+                        localStorage.getItem(BOOKING_KEY) || "[]"
+                    );
+
+                    const savedBooking = Array.isArray(savedBookings)
+                        ? savedBookings.find(item =>
+                            String(item.id) === String(booking.id)
+                        )
+                        : null;
+
+                    if (
+                        !savedBooking ||
+                        savedBooking.status !== "pending" ||
+                        savedBooking.shippingAddress !== shippingAddress ||
+                        String(savedBooking.costumeId) !== String(latestCostume.id)
+                    ) {
+                        throw new Error("ตรวจสอบข้อมูลคำขอหลังบันทึกไม่สำเร็จ");
+                    }
+
+                    alert(
+                        "ส่งคำขอเช่าเรียบร้อยแล้ว\n\n" +
+                        "ชุด: " + booking.costumeName + "\n" +
+                        "วันเช่า: " + rentDate + "\n" +
+                        "วันคืน: " + returnDate + "\n" +
+                        "สถานะ: รอร้านตรวจสอบ"
+                    );
+
+                    window.location.href = "my-rentals.html";
+
+                } catch (error) {
+                    console.error("บันทึกคำขอเช่าไม่สำเร็จ:", error);
+
+                    alert("ไม่สามารถบันทึกคำขอเช่าได้ กรุณาตรวจสอบข้อมูลแล้วลองใหม่");
+
+                    isSubmitting = false;
+                    bookingButton.disabled = false;
+                    bookingButton.textContent = "ส่งคำขอจอง";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

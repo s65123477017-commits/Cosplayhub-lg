@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7655d9">
+    <title>หน้าแรก | CosplayHub</title>
+
+    <style>
+        /* =========================
+           1. สีและค่าพื้นฐาน
+        ========================= */
+        :root {
+            --primary: #6D4AFF;
+            --primary-dark: #5735D6;
+            --primary-light: #F0E9FF;
+            --text: #302344;
+            --muted: #81758F;
+            --border: #EAE0FA;
+            --white: #FFFFFF;
+            --background: #FFF9FF;
+            --success: #20865B;
+            --danger: #C64B60;
+            --radius: 18px;
+            --shadow: 0 8px 28px rgba(93, 59, 155, .10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        /* =========================
+           2. ส่วนหัวเว็บไซต์
+        ========================= */
+        .home-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 76px;
+            padding: 12px 5%;
+            background: rgba(255, 255, 255, .97);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .home-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .home-logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .home-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .home-nav a {
+            padding: 11px 14px;
+            border-radius: 24px;
+            color: #625675;
+            font-size: 14px;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .home-nav a:hover,
+        .home-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* ปุ่มโปรไฟล์และประเมินความพึงพอใจ */
+        .profile-link,
+        .survey-nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 14px;
+            border: 1px solid #ded2ff;
+            border-radius: 24px;
+            background: #ffffff;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .2s, color .2s;
+        }
+
+        .profile-link:hover,
+        .survey-nav-link:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .profile-link:focus-visible,
+        .survey-nav-link:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+        }
+
+        /* ปุ่มออกจากระบบ */
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 14px;
+            border: 1px solid #e8e0f3;
+            border-radius: 24px;
+            background: #ffffff;
+            color: #625675;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .2s, color .2s;
+        }
+
+        .logout-link:hover {
+            background: #f8f5fc;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* =========================
+           3. เนื้อหาหลัก
+        ========================= */
+        .home-main {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 28px 5% 55px;
+        }
+
+        /* =========================
+           4. แบนเนอร์หลัก
+        ========================= */
+        .shop-banner {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+            align-items: center;
+            gap: 25px;
+            min-height: 390px;
+            padding: 40px;
+            overflow: hidden;
+            border: 1px solid #eee5ff;
+            border-radius: 24px;
+            background:
+                radial-gradient(ellipse at 80% 40%, #ded0ff 0%, transparent 50%),
+                linear-gradient(115deg, #f5f0ff, #ffffff 60%, #f0e8ff);
+        }
+
+        .shop-banner-content {
+            min-width: 0;
+        }
+
+        .shop-label {
+            display: inline-block;
+            margin-bottom: 17px;
+            padding: 8px 14px;
+            border: 1px solid #ded0ff;
+            border-radius: 24px;
+            background: white;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .shop-banner h1 {
+            margin: 0 0 15px;
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 1.35;
+        }
+
+        .headline-accent {
+            color: var(--primary);
+        }
+
+        .shop-banner p {
+            max-width: 550px;
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .banner-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 20px;
+            border-radius: 26px;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .primary-button {
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .secondary-button {
+            border: 1px solid #ded2ff;
+            background: white;
+            color: var(--primary);
+        }
+
+        .secondary-button:hover {
+            background: var(--primary-light);
+        }
+
+        .shop-banner-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .shop-banner-logo img {
+            display: block;
+            width: 100%;
+            max-width: 390px;
+            max-height: 330px;
+            object-fit: contain;
+        }
+
+        /* =========================
+           5. ข้อมูลร้านและขั้นตอน
+        ========================= */
+        .home-info-grid {
+            display: grid;
+            grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+            gap: 22px;
+            margin-top: 34px;
+        }
+
+        .info-card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .section-label {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .info-card h2,
+        .section-heading h2 {
+            margin: 0 0 10px;
+            font-size: 23px;
+        }
+
+        .info-card p,
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .shop-points {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .shop-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #625675;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .shop-point span:first-child {
+            color: var(--primary);
+        }
+
+        /* =========================
+           6. รายการชุดคอสเพลย์
+        ========================= */
+        .costume-section {
+            margin-top: 42px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 320px;
+            min-height: 43px;
+            padding: 10px 14px;
+            border: 1px solid #e4dcef;
+            border-radius: 12px;
+            outline: none;
+            background: white;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px #7655d91c;
+        }
+
+        .costume-result-text {
+            margin: 0 0 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .costume-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .costume-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .costume-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(61, 39, 101, .11);
+        }
+
+        .costume-image-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 230px;
+            padding: 12px;
+            background: #f6f2ff;
+        }
+
+        .costume-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .costume-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            border-radius: 18px;
+            background: #e2f6eb;
+            color: var(--success);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .costume-status.unavailable {
+            background: #fff0f1;
+            color: var(--danger);
+        }
+
+        .costume-card-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 18px;
+        }
+
+        .costume-card-content h3 {
+            margin: 0 0 9px;
+            font-size: 17px;
+            overflow-wrap: anywhere;
+        }
+
+        .costume-description {
+            flex: 1;
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .costume-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 16px;
+        }
+
+        .costume-tag {
+            padding: 6px 9px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            color: #6549b1;
+            font-size: 11px;
+            overflow-wrap: anywhere;
+        }
+
+        .costume-card-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 12px;
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .costume-card-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .costume-card-button:disabled {
+            border-color: #d5d0df;
+            background: #eeeaf4;
+            color: #82798e;
+            cursor: not-allowed;
+        }
+
+        .costume-empty {
+            grid-column: 1 / -1;
+            padding: 40px 20px;
+            border: 1px dashed #d9ccef;
+            border-radius: var(--radius);
+            background: white;
+            text-align: center;
+        }
+
+        .costume-empty h3 {
+            margin: 0 0 8px;
+        }
+
+        .costume-empty p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           7. ส่วนท้าย
+        ========================= */
+        .home-footer {
+            padding: 24px 5%;
+            border-top: 1px solid var(--border);
+            background: white;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* =========================
+           8. รองรับแท็บเล็ต
+        ========================= */
+        @media (max-width: 1100px) {
+            .home-header {
+                flex-wrap: wrap;
+            }
+
+            .home-nav {
+                order: 3;
+                width: 100%;
+            }
+
+            .header-actions {
+                margin-left: auto;
+            }
+        }
+
+        @media (max-width: 950px) {
+            .shop-banner {
+                padding: 30px;
+            }
+
+            .home-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .costume-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* =========================
+           9. รองรับโทรศัพท์
+        ========================= */
+        @media (max-width: 620px) {
+            .home-header {
+                position: relative;
+                padding: 12px 16px;
+                gap: 10px;
+            }
+
+            .home-logo {
+                font-size: 18px;
+            }
+
+            .home-logo img {
+                width: 36px;
+                height: 36px;
+            }
+
+            .mobile-menu-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-actions {
+                order: 3;
+                width: 100%;
+                margin-left: 0;
+                gap: 8px;
+            }
+
+            .profile-link,
+            .survey-nav-link,
+            .logout-link {
+                flex: 1;
+                min-width: 0;
+                padding: 10px 8px;
+                text-align: center;
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            .home-nav {
+                display: none;
+                order: 4;
+                align-items: stretch;
+                width: 100%;
+                padding-top: 8px;
+            }
+
+            .home-nav.open {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .home-nav a {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .home-main {
+                padding: 18px 16px 38px;
+            }
+
+            .shop-banner {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 25px 20px;
+                border-radius: 18px;
+            }
+
+            .shop-banner h1 {
+                font-size: 31px;
+            }
+
+            .shop-banner p {
+                font-size: 14px;
+            }
+
+            .shop-banner-logo {
+                min-height: 180px;
+            }
+
+            .shop-banner-logo img {
+                max-height: 220px;
+            }
+
+            .banner-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .banner-actions a {
+                width: 100%;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            .section-heading {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .search-input {
+                max-width: none;
+            }
+
+            .costume-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .costume-image-wrap {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .home-logo {
+                gap: 6px;
+                font-size: 16px;
+            }
+
+            .home-logo img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .mobile-menu-button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .header-actions {
+                flex-wrap: wrap;
+            }
+
+            .profile-link,
+            .survey-nav-link,
+            .logout-link {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+         1. ส่วนหัวและเมนู
+    ========================= -->
+    <header class="home-header">
+        <a href="home.html" class="home-logo" aria-label="CosplayHub หน้าแรก">
+            <img src="images/logo.png" alt="CosplayHub">
+            <span>CosplayHub</span>
+        </a>
+
+        <nav class="home-nav" id="homeNav" aria-label="เมนูหลัก">
+           
+           
+           
+        </nav>
+
+        <div class="header-actions">
+            <a href="profile.html" class="profile-link">โปรไฟล์</a>
+            <a href="satisfaction.html" class="survey-nav-link">ประเมินความพึงพอใจ</a>
+            <a href="index.html" class="logout-link" id="logoutButton">ออกจากระบบ</a>
+        </div>
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            type="button"
+            aria-expanded="false"
+            aria-controls="homeNav"
+        >
+            ☰ เมนู
+        </button>
+    </header>
+
+    <!-- =========================
+         2. เนื้อหาหลัก
+    ========================= -->
+    <main class="home-main">
+        <!-- แบนเนอร์หลัก -->
+        <section class="shop-banner">
+            <div class="shop-banner-content">
+                <span class="shop-label">ร้านเช่าชุดคอสเพลย์</span>
+
+                <h1>
+                    สนุกกับการคอสเพลย์<br>
+                    <span class="headline-accent">ในแบบที่คุณต้องการ</span>
+                </h1>
+
+                <p>
+                    เลือกชมชุดคอสเพลย์ ตรวจสอบรายละเอียดตัวชุด วิก และพร็อพ
+                    พร้อมตรวจสอบสถานะก่อนส่งคำขอเช่าให้ร้านพิจารณา
+                </p>
+
+                <div class="banner-actions">
+                 
+                </div>
+            </div>
+
+            <div class="shop-banner-logo">
+                <img
+                    src="images/cosplay-banner.png"
+                    alt="ภาพชุดคอสเพลย์"
+                    onerror="this.style.display='none';"
+                >
+            </div>
+        </section>
+
+        <!-- ข้อมูลร้าน -->
+        <section class="home-info-grid" aria-label="ข้อมูลร้าน">
+            <article class="info-card">
+                <span class="section-label">เกี่ยวกับร้าน</span>
+                <h2>เลือกชุดที่เหมาะกับคุณ</h2>
+                <p>
+                    ดูรายละเอียดชุดคอสเพลย์จากร้าน ตรวจสอบข้อมูลวิกและพร็อพ
+                    และส่งคำขอเช่าเพื่อรอร้านตรวจสอบ
+                </p>
+            </article>
+
+            <article class="info-card">
+                <span class="section-label">ขั้นตอนการเช่า</span>
+                <h2>เช่าง่ายในไม่กี่ขั้นตอน</h2>
+
+                <div class="shop-points">
+                    <div class="shop-point">
+                        <span>✦</span>
+                        <span>เลือกชุดและอ่านรายละเอียดก่อนจอง</span>
+                    </div>
+
+                    <div class="shop-point">
+                        <span>✦</span>
+                        <span>เลือกวันเช่าและวันคืนตามที่ต้องการ</span>
+                    </div>
+
+                    <div class="shop-point">
+                        <span>✦</span>
+                        <span>ส่งคำขอและรอร้านยืนยันสถานะ</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================
+             3. รายการชุดคอสเพลย์
+        ========================= -->
+        <section class="costume-section" id="costumeSection">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">COSPLAY COLLECTION</span>
+                    <h2>ชุดคอสเพลย์แนะนำ</h2>
+                    <p>เลือกดูชุดและตรวจสอบสถานะก่อนส่งคำขอเช่า</p>
+                </div>
+
+                <input
+                    class="search-input"
+                    type="search"
+                    id="homeSearchInput"
+                    placeholder="ค้นหาชื่อตัวละครหรือชุด..."
+                    aria-label="ค้นหาชุดคอสเพลย์"
+                    autocomplete="off"
+                >
+            </div>
+
+            <p class="costume-result-text" id="costumeResultText" aria-live="polite">
+                กำลังโหลดรายการชุด...
+            </p>
+
+            <div class="costume-grid" id="homeCostumeGrid">
+                <!-- JavaScript แสดงรายการชุดจาก localStorage -->
+            </div>
+        </section>
+    </main>
+
+    <!-- =========================
+         4. ส่วนท้าย
+    ========================= -->
+    <footer class="home-footer">
+        CosplayHub · ร้านเช่าชุดคอสเพลย์
+    </footer>
+
+    <script>
+        /* =========================
+           1. เมนูสำหรับโทรศัพท์
+        ========================= */
+        const mobileMenuButton = document.getElementById("mobileMenuButton");
+        const homeNav = document.getElementById("homeNav");
+
+        mobileMenuButton.addEventListener("click", function () {
+            const isOpen = homeNav.classList.toggle("open");
+            mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        homeNav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                homeNav.classList.remove("open");
+                mobileMenuButton.setAttribute("aria-expanded", "false");
+            });
+        });
+
+        /* =========================
+           2. ออกจากระบบ
+        ========================= */
+        document.getElementById("logoutButton").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            if (window.confirm("คุณต้องการออกจากระบบหรือไม่?")) {
+                window.location.href = "index.html";
+            }
+        });
+
+        /* =========================
+           3. เตรียมส่วนแสดงรายการชุด
+        ========================= */
+        const homeCostumeGrid = document.getElementById("homeCostumeGrid");
+        const costumeResultText = document.getElementById("costumeResultText");
+        const homeSearchInput = document.getElementById("homeSearchInput");
+
+        /* อ่านข้อมูลชุดจาก localStorage */
+        function readCostumes() {
+            try {
+                const saved = localStorage.getItem("cosplayHubCostumes");
+
+                if (!saved) {
+                    return [];
+                }
+
+                const parsed = JSON.parse(saved);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.error("อ่านข้อมูลชุดไม่สำเร็จ:", error);
+                return [];
+            }
+        }
+
+        /* ป้องกันข้อความในข้อมูลชุดแทรก HTML */
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, function (character) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[character];
+            });
+        }
+
+        /* อ่านชื่อตัวละครหรือชื่อชุด */
+        function getCostumeName(costume) {
+            return costume.characterName
+                || costume.costumeName
+                || costume.name
+                || costume.character
+                || costume.title
+                || "ชุดคอสเพลย์";
+        }
+
+        /* อ่านรายละเอียดชุด */
+        function getCostumeDescription(costume) {
+            return costume.description
+                || costume.details
+                || costume.detail
+                || "ดูรายละเอียดชุด วิก และพร็อพก่อนส่งคำขอเช่า";
+        }
+
+        /* อ่านรูปชุด */
+        function getCostumeImage(costume) {
+            return costume.image
+                || costume.imageUrl
+                || costume.imageURL
+                || costume.photo
+                || costume.costumeImage
+                || "";
+        }
+
+        /* อ่านสถานะชุด */
+        function getCostumeStatus(costume) {
+            const value = String(
+                costume.status ?? costume.availability ?? "available"
+            ).trim().toLowerCase();
+
+            const unavailableValues = [
+                "unavailable",
+                "not available",
+                "ไม่ว่าง",
+                "ไม่พร้อมให้เช่า",
+                "ถูกเช่า",
+                "false",
+                "0"
+            ];
+
+            const unavailable = unavailableValues.includes(value);
+
+            return {
+                text: unavailable ? "ไม่ว่าง" : "ว่าง",
+                unavailable: unavailable
+            };
+        }
+
+        /* สร้างลิงก์ไปหน้ารายละเอียดชุด */
+        function getCostumeDetailUrl(costume) {
+            if (
+                costume.id === undefined ||
+                costume.id === null ||
+                String(costume.id).trim() === ""
+            ) {
+                return "";
+            }
+
+            return "costume-detail.html?id="
+                + encodeURIComponent(String(costume.id));
+        }
+
+        /* อ่านข้อมูลวิก */
+        function getWigText(costume) {
+            const wig = costume.wig ?? costume.wigStatus ?? "";
+
+            const labels = {
+                included: "มีวิกในชุด",
+                external: "วิกจากภายนอก",
+                none: "ไม่มีวิก"
+            };
+
+            return labels[wig] || (wig ? String(wig) : "");
+        }
+
+        /* อ่านข้อมูลพร็อพ */
+        function getPropText(costume) {
+            const prop = costume.prop
+                ?? costume.props
+                ?? costume.propStatus
+                ?? "";
+
+            const labels = {
+                included: "มีพร็อพในชุด",
+                customer: "ลูกค้าจัดหาเอง",
+                additional: "ร้านจัดหาเพิ่มเติม",
+                none: "ไม่มีพร็อพ"
+            };
+
+            return labels[prop] || (prop ? String(prop) : "");
+        }
+
+        /* =========================
+           4. แสดงรายการชุด
+        ========================= */
+        function renderHomeCostumes(costumeList) {
+            const costumes = Array.isArray(costumeList) ? costumeList : [];
+
+            if (costumes.length === 0) {
+                homeCostumeGrid.innerHTML = `
+                    <div class="costume-empty">
+                        <h3>ไม่พบรายการชุดคอสเพลย์</h3>
+                        <p>
+                            ลองค้นหาด้วยคำอื่น หรือตรวจสอบว่าร้านได้เพิ่มรายการชุดไว้แล้ว
+                        </p>
+                    </div>
+                `;
+
+                costumeResultText.textContent = "ไม่พบรายการชุด";
+                return;
+            }
+
+            homeCostumeGrid.innerHTML = costumes.map(function (costume) {
+                const name = escapeHTML(getCostumeName(costume));
+                const description = escapeHTML(getCostumeDescription(costume));
+                const image = getCostumeImage(costume);
+                const status = getCostumeStatus(costume);
+                const detailUrl = getCostumeDetailUrl(costume);
+                const wig = escapeHTML(getWigText(costume));
+                const prop = escapeHTML(getPropText(costume));
+
+                const imageHTML = image
+                    ? `<img
+                            class="costume-image"
+                            src="${escapeHTML(image)}"
+                            alt="${name}"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='images/logo.png';"
+                       >`
+                    : `<img
+                            class="costume-image"
+                            src="images/logo.png"
+                            alt="${name}"
+                       >`;
+
+                const detailButton = detailUrl
+                    ? `<a
+                            class="costume-card-button"
+                            href="${escapeHTML(detailUrl)}"
+                       >
+                            ดูชุดและรายละเอียด →
+                       </a>`
+                    : `<button
+                            class="costume-card-button"
+                            type="button"
+                            disabled
+                            title="รายการนี้ไม่มีรหัสชุด"
+                       >
+                            ไม่พบรหัสชุด
+                       </button>`;
+
+                return `
+                    <article class="costume-card">
+                        <div class="costume-image-wrap">
+                            ${imageHTML}
+
+                            <span class="costume-status ${status.unavailable ? "unavailable" : ""}">
+                                ${status.text}
+                            </span>
+                        </div>
+
+                        <div class="costume-card-content">
+                            <h3>${name}</h3>
+
+                            <p class="costume-description">
+                                ${description}
+                            </p>
+
+                            <div class="costume-meta">
+                                ${wig
+                                    ? `<span class="costume-tag">วิก: ${wig}</span>`
+                                    : ""
+                                }
+
+                                ${prop
+                                    ? `<span class="costume-tag">พร็อพ: ${prop}</span>`
+                                    : ""
+                                }
+                            </div>
+
+                            ${detailButton}
+                        </div>
+                    </article>
+                `;
+            }).join("");
+
+            costumeResultText.textContent = `พบรายการชุด ${costumes.length} ชุด`;
+        }
+
+        /* =========================
+           5. ค้นหาชุดคอสเพลย์
+        ========================= */
+        function searchCostumes() {
+            const keyword = homeSearchInput.value
+                .trim()
+                .toLocaleLowerCase("th");
+
+            const allCostumes = readCostumes();
+
+            if (!keyword) {
+                renderHomeCostumes(allCostumes);
+                return;
+            }
+
+            const matchedCostumes = allCostumes.filter(function (costume) {
+                const searchableText = [
+                    getCostumeName(costume),
+                    getCostumeDescription(costume),
+                    costume.characterName,
+                    costume.costumeName,
+                    costume.name,
+                    costume.character,
+                    costume.title,
+                    costume.description,
+                    costume.details,
+                    costume.detail,
+                    getWigText(costume),
+                    getPropText(costume)
+                ]
+                    .filter(function (value) {
+                        return value !== null && value !== undefined;
+                    })
+                    .join(" ")
+                    .toLocaleLowerCase("th");
+
+                return searchableText.includes(keyword);
+            });
+
+            renderHomeCostumes(matchedCostumes);
+        }
+
+        homeSearchInput.addEventListener("input", searchCostumes);
+
+        /* =========================
+           6. เริ่มทำงานเมื่อเปิดหน้า
+        ========================= */
+        renderHomeCostumes(readCostumes());
+    </script>
+</body>
+</html>

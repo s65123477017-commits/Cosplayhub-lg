@@ -1,0 +1,693 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8f5ff">
+
+    <title>เลือกบทบาท | CosplayHub</title>
+
+    <style>
+        /* ==============================
+           1. สีและค่าพื้นฐาน
+        ============================== */
+        :root {
+            --primary: #8062d6;
+            --primary-dark: #6749bc;
+            --primary-light: #eee7ff;
+            --pink: #d77db5;
+            --blue: #638bd2;
+            --text: #342b4e;
+            --muted: #817990;
+            --border: #ece6f7;
+            --white: #ffffff;
+            --shadow: 0 12px 35px rgba(76, 56, 125, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 0% 0%,
+                    rgba(225, 212, 255, 0.65),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 100% 75%,
+                    rgba(255, 224, 242, 0.55),
+                    transparent 30%
+                ),
+                #faf9ff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ==============================
+           2. ส่วนหัวและโลโก้
+        ============================== */
+        .header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid rgba(225, 216, 245, 0.8);
+        }
+
+        .header-inner {
+            width: min(1120px, 90%);
+            min-height: 78px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            display: block;
+            width: 43px;
+            height: 43px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--primary-dark);
+        }
+
+        .header-caption {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* ==============================
+           3. เนื้อหาหลัก
+        ============================== */
+        .main {
+            width: min(1060px, 90%);
+            margin: 0 auto;
+            padding: 58px 0 32px;
+        }
+
+        .intro {
+            margin-bottom: 38px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border: 1px solid #e6ddff;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .intro h1 {
+            margin: 20px 0 12px;
+            font-size: clamp(29px, 4vw, 39px);
+            line-height: 1.35;
+            letter-spacing: -0.8px;
+        }
+
+        .intro h1 span {
+            color: var(--primary);
+        }
+
+        .intro p {
+            max-width: 520px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* ==============================
+           4. การ์ดเลือกบทบาท
+        ============================== */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .role-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 27px 22px 22px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .role-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        .role-card.shop::before {
+            background: var(--pink);
+        }
+
+        .role-card.admin::before {
+            background: var(--blue);
+        }
+
+        .role-card:hover {
+            transform: translateY(-4px);
+            border-color: #d8cbf5;
+            box-shadow: 0 18px 40px rgba(76, 56, 125, 0.12);
+        }
+
+        /* ไอคอนแต่ละบทบาท */
+        .role-icon {
+            display: grid;
+            place-items: center;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 22px;
+            background: #f0eaff;
+        }
+
+        .role-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: none;
+            stroke: var(--primary-dark);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .role-card.shop .role-icon {
+            background: #fff0f8;
+        }
+
+        .role-card.shop .role-icon svg {
+            stroke: #bb669d;
+        }
+
+        .role-card.admin .role-icon {
+            background: #edf4ff;
+        }
+
+        .role-card.admin .role-icon svg {
+            stroke: #587db8;
+        }
+
+        .role-card h2 {
+            margin: 0 0 10px;
+            font-size: 21px;
+            font-weight: 750;
+            text-align: center;
+        }
+
+        .role-description {
+            min-height: 52px;
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* รายละเอียดหน้าที่ */
+        .role-features {
+            display: grid;
+            gap: 12px;
+            margin: 0 0 24px;
+            padding: 16px;
+            list-style: none;
+            border-radius: 14px;
+            background: #f9f7ff;
+        }
+
+        .role-card.shop .role-features {
+            background: #fff8fc;
+        }
+
+        .role-card.admin .role-features {
+            background: #f7faff;
+        }
+
+        .role-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            color: #625a75;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .check {
+            flex-shrink: 0;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .role-card.shop .check {
+            color: var(--pink);
+        }
+
+        .role-card.admin .check {
+            color: var(--blue);
+        }
+
+        /* ==============================
+           5. ปุ่มเข้าสู่ระบบ
+        ============================== */
+        .role-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 47px;
+            margin-top: auto;
+            padding: 12px 14px;
+            border: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #9277e4, #7658ce);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(128, 98, 214, 0.17);
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .role-button:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .role-button:focus-visible {
+            outline: 3px solid #c8b6ff;
+            outline-offset: 3px;
+        }
+
+        .role-card.shop .role-button {
+            background: linear-gradient(135deg, #df9bc5, #c779ac);
+            box-shadow: 0 6px 15px rgba(199, 121, 172, 0.15);
+        }
+
+        .role-card.admin .role-button {
+            background: linear-gradient(135deg, #83a8df, #6689c5);
+            box-shadow: 0 6px 15px rgba(102, 137, 197, 0.15);
+        }
+
+        .button-arrow {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* ==============================
+           6. ข้อความแนะนำ
+        ============================== */
+        .bottom-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 30px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .bottom-note svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ==============================
+           7. ส่วนท้าย
+        ============================== */
+        .footer {
+            width: min(1060px, 90%);
+            margin: 0 auto;
+            padding: 20px 0 25px;
+            border-top: 1px solid #e9e2f5;
+            color: #9890a9;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* ==============================
+           8. แท็บเล็ต
+        ============================== */
+        @media (max-width: 900px) {
+            .main {
+                width: min(720px, 90%);
+                padding-top: 44px;
+            }
+
+            .role-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 17px;
+            }
+
+            .role-card.admin {
+                grid-column: 1 / -1;
+                width: calc(50% - 9px);
+                justify-self: center;
+            }
+
+            .role-card {
+                padding: 24px 19px 20px;
+            }
+        }
+
+        /* ==============================
+           9. โทรศัพท์มือถือ
+        ============================== */
+        @media (max-width: 600px) {
+            .header-inner {
+                width: 90%;
+                min-height: 68px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .brand img {
+                width: 38px;
+                height: 38px;
+            }
+
+            .brand-name {
+                font-size: 21px;
+            }
+
+            .header-caption {
+                display: none;
+            }
+
+            .main {
+                width: 90%;
+                padding-top: 34px;
+            }
+
+            .intro {
+                margin-bottom: 25px;
+            }
+
+            .intro h1 {
+                margin-top: 16px;
+                font-size: 30px;
+            }
+
+            .intro p {
+                font-size: 13px;
+            }
+
+            .role-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 16px;
+            }
+
+            .role-card,
+            .role-card.admin {
+                grid-column: auto;
+                width: 100%;
+                padding: 23px 20px 20px;
+            }
+
+            .role-icon {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 15px;
+                border-radius: 20px;
+            }
+
+            .role-icon svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            .role-description {
+                min-height: 0;
+                margin-bottom: 17px;
+            }
+
+            .role-features {
+                gap: 9px;
+                margin-bottom: 19px;
+            }
+
+            .bottom-note {
+                align-items: flex-start;
+                margin-top: 23px;
+                font-size: 11px;
+            }
+        }
+
+        /* รองรับผู้ใช้ที่ลดการเคลื่อนไหว */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ส่วนหัว -->
+    <header class="header">
+        <div class="header-inner">
+            <a
+                class="brand"
+                href="login-select.html"
+                aria-label="CosplayHub"
+            >
+                <img src="images/logo.png" alt="โลโก้ CosplayHub">
+                <span class="brand-name">CosplayHub</span>
+            </a>
+
+            <div class="header-caption">
+                พื้นที่สำหรับคนรักคอสเพลย์
+            </div>
+        </div>
+    </header>
+
+    <!-- เนื้อหาหลัก -->
+    <main class="main">
+        <section class="intro">
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                ยินดีต้อนรับสู่ CosplayHub
+            </div>
+
+            <h1>
+                เลือกบทบาทเพื่อ<br>
+                <span>เข้าสู่ระบบ</span>
+            </h1>
+
+            <p>
+                เลือกบทบาทให้ตรงกับบัญชีของคุณ
+                เพื่อใช้งานระบบได้อย่างเหมาะสม
+            </p>
+        </section>
+
+        <!-- การ์ดบทบาททั้ง 3 บทบาท -->
+        <section class="role-grid" aria-label="เลือกบทบาท">
+
+            <!-- ลูกค้า -->
+            <article class="role-card customer">
+                <div class="role-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48">
+                        <circle cx="24" cy="16" r="8"></circle>
+                        <path d="M9 40c0-8.3 6.7-14 15-14s15 5.7 15 14"></path>
+                    </svg>
+                </div>
+
+                <h2>ลูกค้า</h2>
+
+                <p class="role-description">
+                    ค้นหาชุดคอสเพลย์ที่ชอบ
+                    และส่งคำขอเช่าชุด
+                </p>
+
+                <ul class="role-features">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ดูรายละเอียดชุดคอสเพลย์</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ส่งคำขอเช่าชุด</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ติดตามสถานะคำขอเช่า</span>
+                    </li>
+                </ul>
+
+                <a class="role-button" href="index.html">
+                    เข้าสู่ระบบลูกค้า
+                    <span class="button-arrow" aria-hidden="true">›</span>
+                </a>
+            </article>
+
+            <!-- ร้านค้า -->
+            <article class="role-card shop">
+                <div class="role-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48">
+                        <path d="M7 20h34l-3-11H10L7 20Z"></path>
+                        <path d="M10 20v19h28V20"></path>
+                        <path d="M19 39V27h10v12"></path>
+                        <path d="M7 20c0 4 6 5 9 0 3 5 9 5 12 0 3 5 9 4 13 0"></path>
+                    </svg>
+                </div>
+
+                <h2>ร้านค้า</h2>
+
+                <p class="role-description">
+                    จัดการข้อมูลชุดคอสเพลย์
+                    และตรวจสอบคำขอเช่าจากลูกค้า
+                </p>
+
+                <ul class="role-features">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>จัดการข้อมูลชุดคอสเพลย์</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ตรวจสอบคำขอเช่า</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ยืนยันหรือปฏิเสธคำขอ</span>
+                    </li>
+                </ul>
+
+                <a class="role-button" href="shop-login.html">
+                    เข้าสู่ระบบร้านค้า
+                    <span class="button-arrow" aria-hidden="true">›</span>
+                </a>
+            </article>
+
+            <!-- ผู้ดูแลระบบ -->
+            <article class="role-card admin">
+                <div class="role-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48">
+                        <path d="M24 5 39 11v11c0 10-6.5 16-15 21C15.5 38 9 32 9 22V11l15-6Z"></path>
+                        <path d="m17 23 5 5 10-11"></path>
+                    </svg>
+                </div>
+
+                <h2>ผู้ดูแลระบบ</h2>
+
+                <p class="role-description">
+                    เข้าสู่พื้นที่ดูแลระบบ
+                    ตามสิทธิ์ของผู้ดูแล
+                </p>
+
+                <ul class="role-features">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>เข้าถึงหน้าจัดการระบบ</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>ดูแลการใช้งานตามสิทธิ์</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>จัดการส่วนที่ได้รับอนุญาต</span>
+                    </li>
+                </ul>
+
+                <a class="role-button" href="admin-login.html">
+                    เข้าสู่ระบบผู้ดูแล
+                    <span class="button-arrow" aria-hidden="true">›</span>
+                </a>
+            </article>
+
+        </section>
+
+        <!-- ข้อความแนะนำ -->
+        <div class="bottom-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3 20 6v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-3Z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+            </svg>
+
+            <span>
+                กรุณาเลือกบทบาทให้ตรงกับบัญชีที่คุณต้องการใช้งาน
+            </span>
+        </div>
+    </main>
+
+    <!-- ส่วนท้าย -->
+    <footer class="footer">
+        © CosplayHub
+    </footer>
+</body>
+</html>
+```

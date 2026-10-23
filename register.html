@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5efff">
+    <title>สมัครสมาชิก | CosplayHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ========================================
+           1. สีพื้นฐานของ CosplayHub
+        ======================================== */
+        :root {
+            --ch-purple: #8967df;
+            --ch-purple-dark: #704cc5;
+            --ch-lavender: #eee6ff;
+            --ch-ink: #39324f;
+            --ch-muted: #8c849f;
+            --ch-border: #e8dff8;
+            --ch-input: #f7f4ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0 !important;
+            min-height: 100vh;
+            padding: 28px 18px;
+            color: var(--ch-ink) !important;
+            font-family: "Leelawadee UI", Tahoma, sans-serif !important;
+            background:
+                radial-gradient(
+                    ellipse at 15% 20%,
+                    rgba(224, 208, 255, .75),
+                    transparent 40%
+                ),
+                radial-gradient(
+                    ellipse at 85% 80%,
+                    rgba(236, 221, 255, .8),
+                    transparent 40%
+                ),
+                linear-gradient(135deg, #fcfaff, #f5efff 55%, #f0eaff) !important;
+        }
+
+        input,
+        button {
+            font: inherit;
+        }
+
+        /* ========================================
+           2. โครงสร้างหน้า
+        ======================================== */
+        .register-page {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ========================================
+           3. โลโก้
+        ======================================== */
+        .register-logo {
+            display: flex;
+            justify-content: center;
+            margin: 0 0 12px;
+        }
+
+        .register-logo img {
+            display: block;
+            width: 66px !important;
+            height: 66px !important;
+            max-width: 100%;
+            object-fit: contain !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* ========================================
+           4. หัวข้อหน้า
+        ======================================== */
+        .register-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .register-header h1 {
+            margin: 0;
+            color: #382f50;
+            font-size: clamp(27px, 5vw, 34px);
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .register-header p {
+            max-width: 500px;
+            margin: 8px auto 0;
+            color: var(--ch-muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           5. การ์ดสมัครสมาชิก
+        ======================================== */
+        .register-card {
+            width: 100%;
+            padding: clamp(22px, 4vw, 36px);
+            background: rgba(255, 255, 255, .95) !important;
+            border: 1px solid rgba(224, 213, 246, .85) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 22px 60px rgba(104, 78, 161, .12) !important;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            color: #46385f;
+            border-bottom: 1px solid #eee7fa;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        /* ========================================
+           6. ช่องกรอกข้อมูล
+        ======================================== */
+        #registerForm {
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+        }
+
+        .form-group label {
+            color: #4c4265;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-group label span {
+            color: #d65a83;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-width: 0;
+            height: 48px;
+            margin: 0;
+            padding: 0 14px;
+            color: #302943;
+            background: var(--ch-input) !important;
+            border: 1px solid var(--ch-border) !important;
+            border-radius: 12px !important;
+            outline: none;
+            box-shadow: none;
+            font-size: 13px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa1bc;
+        }
+
+        .form-group input:focus {
+            border-color: #a58be9 !important;
+            box-shadow: 0 0 0 3px rgba(137, 103, 223, .12) !important;
+        }
+
+        /* ========================================
+           7. ข้อกำหนดและเงื่อนไข
+        ======================================== */
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 2px;
+            color: #817895;
+            font-size: 11px;
+            line-height: 1.9;
+            cursor: pointer;
+        }
+
+        .terms input {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 16px;
+            margin: 3px 0 0;
+            accent-color: var(--ch-purple);
+            cursor: pointer;
+        }
+
+        .terms span {
+            min-width: 0;
+        }
+
+        /* ========================================
+           8. ปุ่มสมัครสมาชิก
+        ======================================== */
+        .register-button {
+            width: 100%;
+            min-height: 50px;
+            margin-top: 2px;
+            padding: 12px 18px;
+            color: #fff;
+            background: linear-gradient(100deg, #a58aef, #7958d7) !important;
+            border: 0 !important;
+            border-radius: 30px !important;
+            box-shadow: 0 9px 22px rgba(127, 92, 208, .22) !important;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(127, 92, 208, .29) !important;
+        }
+
+        .register-button:focus-visible {
+            outline: 3px solid rgba(137, 103, 223, .4);
+            outline-offset: 3px;
+        }
+
+        /* ========================================
+           9. ลิงก์กลับเข้าสู่ระบบ
+        ======================================== */
+        .login-divider {
+            width: 100%;
+            height: 1px;
+            margin: 24px 0 18px;
+            background: #eee8f8;
+        }
+
+        .login-link {
+            margin: 0;
+            color: #89819e;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .login-link a {
+            margin-left: 5px;
+            color: var(--ch-purple-dark);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========================================
+           10. รองรับมือถือ
+        ======================================== */
+        @media (max-width: 560px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .register-logo img {
+                width: 58px !important;
+                height: 58px !important;
+            }
+
+            .register-header {
+                margin-bottom: 20px;
+            }
+
+            .register-header p {
+                font-size: 12px;
+            }
+
+            .register-card {
+                padding: 23px 18px;
+                border-radius: 21px !important;
+            }
+
+            .form-row {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 17px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .terms {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .register-card {
+                padding: 20px 14px;
+            }
+
+            .form-group input {
+                font-size: 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="register-page">
+
+        <!-- โลโก้ CosplayHub -->
+        <div class="register-logo">
+            <img src="images/logo.png" alt="โลโก้ CosplayHub">
+        </div>
+
+        <!-- หัวข้อหน้า -->
+        <header class="register-header">
+            <h1>สมัครสมาชิก</h1>
+            <p>
+                สร้างบัญชี CosplayHub เพื่อค้นหาชุดคอสเพลย์
+                และส่งคำขอเช่าได้สะดวก
+            </p>
+        </header>
+
+        <!-- การ์ดสมัครสมาชิก -->
+        <section class="register-card">
+
+            <div class="section-title">
+                <span aria-hidden="true">👤</span>
+                ข้อมูลส่วนตัว
+            </div>
+
+            <form id="registerForm">
+
+                <!-- ชื่อและนามสกุล -->
+                <div class="form-group full-width">
+                    <label for="fullname">
+                        ชื่อ - นามสกุล <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullname"
+                        name="fullname"
+                        placeholder="กรอกชื่อและนามสกุล"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+                <!-- อีเมลและเบอร์โทรศัพท์ -->
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="email">
+                            อีเมล <span>*</span>
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="user@domain.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            เบอร์โทรศัพท์ <span>*</span>
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="กรอกเบอร์โทรศัพท์"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <!-- รหัสผ่านและยืนยันรหัสผ่าน -->
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="password">
+                            รหัสผ่าน <span>*</span>
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="อย่างน้อย 8 ตัวอักษร"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            ยืนยันรหัสผ่าน <span>*</span>
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="กรอกรหัสผ่านอีกครั้ง"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <!-- การยอมรับข้อกำหนด -->
+                <label class="terms" for="terms">
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                    >
+
+                    <span>
+                        ข้าพเจ้ายอมรับข้อกำหนดและเงื่อนไขการให้บริการ
+                        และยินยอมให้เก็บข้อมูลส่วนบุคคลตามนโยบายความเป็นส่วนตัว
+                    </span>
+                </label>
+
+                <!-- ปุ่มสมัครสมาชิก -->
+                <button type="submit" class="register-button">
+                    สมัครสมาชิก
+                </button>
+
+            </form>
+
+            <!-- ลิงก์ไปหน้าเข้าสู่ระบบ -->
+            <div class="login-divider"></div>
+
+            <p class="login-link">
+                มีบัญชีอยู่แล้ว?
+                <a href="index.html">เข้าสู่ระบบ →</a>
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- ใช้ระบบสมัครสมาชิกเดิม -->
+    <script src="js/register.js"></script>
+</body>
+</html>
+```
